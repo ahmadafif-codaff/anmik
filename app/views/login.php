@@ -42,3 +42,4 @@
         <p class="text-secondary mt-2" style="margin-bottom: -10px;">© 2023 Codaff Project. All right reserved. ANMIK version 2.0</p>
     </div>
 </div>
+<?php DATENOW ?>
