@@ -33,7 +33,6 @@
                 </div>
                 <input type="checkbox" onclick="show_password()">&nbsp;<label for="show_password">show password</label>
                 <br>
-                <!-- <a href="/access/lupa_password" class="text-decoration-none">Lupa Password?</a> -->
                 <br>
                 <br>
                 <button class="btn w-100 btn-secondary rounded-5" type="submit" id="login" name="login">Login</button>
@@ -42,4 +41,3 @@
         <p class="text-secondary mt-2" style="margin-bottom: -10px;">© 2023 Codaff Project. All right reserved. ANMIK version 2.0</p>
     </div>
 </div>
-<?php DATENOW ?>
