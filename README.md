@@ -13,17 +13,22 @@ This software is for a local bandwidth management system using the Mikrotik API.
 
 # Requirement
 If you want to use this software, the requirements :
+- Web Server
 1. Operating System (Linux is Recomended).
 2. PHP version >= 7.4.
 3. Apache web server or similar.
 4. Enable htaccess.
 5. MySQL DBMS.
+- Mikrotik Router board
+1. Clock speed CPU 650 MHz.
+2. Router OS v6.3.
+3. Enable API port.
 
 # Installation
 For instalation follow this :
 1. Get ANMIK master. You can get the master file with :
-   a. Download ANMIK master package [ANMIK](https://github.com/ahmadafif-codaff/anmik/archive/refs/heads/master.zip) then extract at web server folder or
-   b. Open terminal in your web server directory then clone this repository with :
+   - Download ANMIK master package [ANMIK](https://github.com/ahmadafif-codaff/anmik/archive/refs/heads/master.zip) then extract at web server folder or
+   - Open terminal in your web server directory then clone this repository with :
    ```shel
    git clone https://github.com/ahmadafif-codaff/anmik.git
    ```
