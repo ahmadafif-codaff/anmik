@@ -63,6 +63,7 @@
                     $hour = date('H');
                     $minutes = date('i');
                     $input_menit   = $data['input']->time;
+                    $minimal_bytes = 1000;
 
                     for($x=0; $x<60; $x++){
                         if($x%$input_menit == 0){
@@ -125,7 +126,7 @@
 
                                                     $comment .= '"renew":"'.$renew.'","input_date":"'.DATENOW.'","usage":"'.$usage.'"}';
 
-                                                    if($upload>1000000 || $download>1000000){
+                                                    if($upload>$minimal_bytes || $download>$minimal_bytes){
                                                         MikrotikAPI::single_set('simple', $id, 'comment', $comment);
                                                         $this->model('AllModel')->insert("usages","null, null, '$upload', '$download', '$id'");
                                                         echo '<h5 class="text-success">Success input client '.$name.'!</h5><br>';
@@ -148,7 +149,7 @@
                                                     $comment .= '"renew":"0","input_date":"'.DATENOW.'","usage":"0"}';
                                                 }
 
-                                                if($upload>1000000 || $download>1000000){
+                                                if($upload>$minimal_bytes || $download>$minimal_bytes){
                                                     MikrotikAPI::single_set('simple', $id, 'comment', $comment);
                                                     $this->model('AllModel')->insert("usages","null, null, '$upload', '$download', '$id'");
                                                     echo '<h5 class="text-success">Success input client '.$name.'!</h5>';
@@ -203,7 +204,7 @@
                                     $max_usage = max($cek_normal_usage);
                                     $usg           = $db->query("SELECT * FROM log WHERE YEAR(time)='$year' AND MONTH(time)='$month' AND DAY(time)='$day' AND HOUR(time)='$hour' AND MINUTE(time)='$minutes' AND message='Perangkat dimulai ulang karena kesalahan aturan'");
                                     $usg           = $db->resultSet();
-                                    if($max_usage<1000000&&count($usg)<1){
+                                    if($max_usage<$minimal_bytes&&count($usg)<1){
                                         Logging::log('reboot_mikrotik', 1, "Perangkat dimulai ulang karena kesalahan aturan", '@from_server');
                                         MikrotikAPI::reboot();
                                     }
