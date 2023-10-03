@@ -203,7 +203,7 @@
                                     $max_usage = max($cek_normal_usage);
                                     $usg           = $db->query("SELECT * FROM log WHERE YEAR(time)='$year' AND MONTH(time)='$month' AND DAY(time)='$day' AND HOUR(time)='$hour' AND MINUTE(time)='$minutes' AND message='Perangkat dimulai ulang karena kesalahan aturan'");
                                     $usg           = $db->resultSet();
-                                    if($max_usage<1000&&count($usg)<1){
+                                    if($max_usage<1000000&&count($usg)<1){
                                         Logging::log('reboot_mikrotik', 1, "Perangkat dimulai ulang karena kesalahan aturan", '@from_server');
                                         MikrotikAPI::reboot();
                                     }
