@@ -23,12 +23,13 @@ If you want to use this software, the requirements :
 For instalation follow this :
 1. Get ANMIK master. You can get the master file with :
    a. Download ANMIK master package [ANMIK](https://github.com/ahmadafif-codaff/anmik/archive/refs/heads/master.zip) then extract at web server folder or
-   b. Clone this repository in your web server folder with :
+   b. Open terminal in your web server directory then clone this repository with :
    ```shel
    git clone https://github.com/ahmadafif-codaff/anmik.git
    ```
-2. Edit file example.config.php in app/config folder, fill in the DB_HOST, DB_USER, DB_PASSWORD according to your DBMS, and fill in MIKROTIK_HOST, MIKROTIK_USER, MIKROTIK_PASSWORD according to your Mikrotik Router, then save the change and rename file example.config.php to config.php.
-3. Open the web browser, then follow links http://localhost/anmik/autoinput ("anmik" change to directory where you place master file). Every time your PC restart run this link (make the link is autorun is recomended).
+2. Edit file example.config.php in "app/config" folder, fill in the DB_HOST, DB_USER, DB_PASSWORD according to your DBMS, and fill in MIKROTIK_HOST, MIKROTIK_USER, MIKROTIK_PASSWORD according to your Mikrotik Router, then save the change and rename file example.config.php to config.php.
+3. Make database "anmik" then import database anmik.sql from "db" folder.
+4. Open the web browser, then follow links http://localhost/anmik/autoinput ("anmik" change to directory where you place master file). Every time your PC restart run this link (make the link is autorun is recomended).
 
 # How to use?
 If the web server has been installed correctly, then :
