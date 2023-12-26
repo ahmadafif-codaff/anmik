@@ -95,7 +95,7 @@ CREATE TABLE `schedule` (
   `id_schedule` int(11) NOT NULL,
   `type` varchar(11) NOT NULL,
   `frequency` varchar(11) NOT NULL,
-  `time` varchar(11) NOT NULL,
+  `time` varchar(100) NOT NULL,
   `status` varchar(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

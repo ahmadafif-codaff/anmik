@@ -25,7 +25,7 @@ class Schedule extends Controller{
     }
 
     public function index(){
-        $data['title'] = "Schedule";
+        $data['title'] = ucwords(PATHURL_ST.' '.PATHURL_ND);
         $data['user'] = $this->model('SessionModel')->user();
 
         $data['input'] = $this->model('AllModel')->whereGet($this->table, "type='input'");
@@ -35,7 +35,7 @@ class Schedule extends Controller{
         $this->view('account/layouts/footer', $data);
     }
 
-    public function data(){
+    public function schedule_reboot(){
         $search = Filter::request('','search');
         $show = Filter::request(30,'row');
         $start = Filter::page(0, $show);
@@ -53,6 +53,40 @@ class Schedule extends Controller{
         $this->view('account/schedule', $data);
     }
 
+    public function schedule_boost(){
+        $search = Filter::request('','search');
+        $show = Filter::request(30,'row');
+        $start = Filter::page(0, $show);
+
+        $data['title'] = "Schedule";
+        $data['user'] = $this->model('SessionModel')->user();
+
+        $data['data'] = $this->model('AllModel')->data($this->table, "time LIKE '%$search%' AND type='boost' OR frequency LIKE '%$search%' AND type='boost' LIMIT $start,$show");
+        $count_all = count($this->model('AllModel')->data($this->table, "time LIKE '%$search%' AND type='boost' OR frequency LIKE '%$search%' AND type='boost'"));
+        $data['count_data'] = count($data['data']) ;
+        $data['start'] = $start;
+        
+        $data['page'] = ceil($count_all/$show);
+
+        $this->view('account/schedule', $data);
+    }
+
+    public function client_list(){
+        $client = MikrotikAPI::all('simple');
+        $option = [];
+        $option[] = '<select name="client" id="client" class="btn btn-ligth w-100 border text-start"><option value="">--Select Client--</option>';
+        foreach($client as $r){
+            $comment = json_decode($r['comment']);
+            $limit = explode('/',$r['limit-at']);
+            $upload = $limit[0]/1000000;
+            $download = $limit[1]/1000000;
+            $option[] = '<option value="'.$r['.id'].'->'.$r['target'].'->'.$r['name'].'">'.$r['name'].' // '.$comment->category.' // '.$download.'Mbps/'.$upload.'Mbps</option>';
+        }
+        $option[] = '</select>';
+
+        echo implode($option);
+    }
+
     public function store(){
         $frequency = $_POST['frequency'];
         $status = $_POST['status'];
@@ -60,6 +94,14 @@ class Schedule extends Controller{
         $hh = $_POST['hh'];
         $mm = $_POST['mm'];
         $ss = $_POST['ss'];
+        $dde = $_POST['dde'];
+        $hhe = $_POST['hhe'];
+        $mme = $_POST['mme'];
+        $start_time = $_POST['start_time'];
+        $end_time = $_POST['end_time'];
+        $client = $_POST['client'];
+        $download = $_POST['download'];
+        $upload = $_POST['upload'];
 
         $rules = [
                     "frequency"=>"$frequency=required",
@@ -69,8 +111,22 @@ class Schedule extends Controller{
                     "ss"=>"$ss=required",
                 ];
 
-        if($frequency=='Day'){
+        if(in_array($frequency,['Day', 'Repeat'])){
             $rules['dd'] = "$dd=required";
+
+            if($frequency!='Day'){
+                $rules['dde'] = "$dde=required";
+                $rules['hhe'] = "$hhe=required";
+                $rules['mme'] = "$mme=required";
+                $rules['client'] = "$client=required";
+                $rules['download'] = "$download=required";
+                $rules['upload'] = "$upload=required";
+            }
+        }
+
+        if($frequency=='One Time'){
+            $rules['start_time'] = "$start_time=required";
+            $rules['end_time'] = "$end_time=required";
         }
 
         if($dd<10 && strlen($dd)<2){
@@ -85,20 +141,45 @@ class Schedule extends Controller{
         if($ss<10 && strlen($ss)<2){
             $ss = '0'.$ss;
         }
+        if($dde<10 && strlen($dde)<2){
+            $dde = '0'.$dde;
+        }
+        if($hhe<10 && strlen($hhe)<2){
+            $hhe = '0'.$hhe;
+        }
+        if($mme<10 && strlen($mme)<2){
+            $mme = '0'.$mme;
+        }
 
         $time = $hh.':'.$mm.':'.$ss;
 
         if($frequency=='Day'){
-            $time = $dd.' '.$hh.':'.$mm.':'.$ss;
+            $time = $dd.':'.$hh.':'.$mm.':'.$ss;
         }
+
+        if(in_array($frequency,['Repeat'])){
+            $time = $dd.' '.$hh.':'.$mm.'->'.$dde.' '.$hhe.':'.$mme.'|'.$client.'|'.$upload.'/'.$download;
+        }
+
+        if(in_array($frequency,['One Time'])){
+            $time = $start_time.'->'.$end_time.'|'.$client.'|'.$upload.'/'.$download;
+        }
+
 
         Validator::validate($rules, $this->table);
 
-        if($this->model('AllModel')->insert($this->table, "null, 'reboot', '$frequency', '$time', '$status'")){
-            Logging::log('tambah_schedule', 1, "Schedule reboot frequency <i>$frequency</i> di waktu <i>$time</i> ditambahkan", $this->user->username);
+        if($_POST['type']=='schedule_boost'){
+            $type = 'boost';
+        }
+        else{
+            $type = 'reboot';
+        }
+
+        if($this->model('AllModel')->insert($this->table, "null, '$type', '$frequency', '$time', '$status'")){
+            Logging::log('tambah_schedule', 1, "Schedule $type frequency <i>$frequency</i> di waktu <i>$time</i> ditambahkan", $this->user->username);
             Flasher::success('tambah', $this->table);
         }else{
-            Logging::log('tambah_schedule', 0, "Schedule reboot frequency <i>$frequency</i> di waktu <i>$time</i> gagal ditambahkan", $this->user->username);
+            Logging::log('tambah_schedule', 0, "Schedule $type frequency <i>$frequency</i> di waktu <i>$time</i> gagal ditambahkan", $this->user->username);
             Flasher::error('tambah', $this->table);
         }
     }

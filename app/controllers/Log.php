@@ -53,6 +53,12 @@ class Log extends Controller{
             if(in_array($r['action'],['reset_bandwidth','renew_client'])){
                 $bg_color = 'table-success';
             }
+            if($r['action']=='expired_boost'){
+                $bg_color = 'table-info';
+            }
+            if($r['action']=='boost_bandwidth'){
+                $bg_color = 'table-primary';
+            }
             $l = $r;
             $l['bg'] = $bg_color;
             $array[] = json_decode(json_encode($l));

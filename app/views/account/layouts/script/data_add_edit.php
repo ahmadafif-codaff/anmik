@@ -64,19 +64,37 @@
         
         <?php if(PATHURL_ST=='schedule'): ?>
 
+        var type = $("#type"+no).val();
         var frequency = $("#frequency"+no).val();
         var status = $("#status"+no).val();
         var dd = $("#dd"+no).val();
         var hh = $("#hh"+no).val();
         var mm = $("#mm"+no).val();
         var ss = $("#ss"+no).val();
+        var dde = $("#dde"+no).val();
+        var hhe = $("#hhe"+no).val();
+        var mme = $("#mme"+no).val();
+        var start_time = $("#start_time"+no).val();
+        var end_time = $("#end_time"+no).val();
+        var client = $("#client"+no).val();
+        var download = $("#download"+no).val();
+        var upload = $("#upload"+no).val();
         var form_data = new FormData();
+        form_data.append("type",type);
         form_data.append("frequency",frequency);
         form_data.append("status",status);
         form_data.append("dd",dd);
         form_data.append("hh",hh);
         form_data.append("mm",mm);
         form_data.append("ss",ss);
+        form_data.append("dde",dde);
+        form_data.append("hhe",hhe);
+        form_data.append("mme",mme);
+        form_data.append("start_time",start_time);
+        form_data.append("end_time",end_time);
+        form_data.append("client",client);
+        form_data.append("download",download);
+        form_data.append("upload",upload);
 
         <?php endif ?>
 

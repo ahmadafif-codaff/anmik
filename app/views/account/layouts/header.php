@@ -57,6 +57,9 @@
                         <div class="border-start p-2 ms-1" title="session"><span class="bi-stopwatch"></span> --:--:--</div>
                         <div class="border-start p-2 ms-1" title="time"><span class="bi-clock"></span> --:--:--</div>
                     </div>
+                    <?php if(!in_array(PATHURL_ST, ['dashboard','pengaturan'])&&PATHURL_ND!='detail'): ?>
+                        <div class="border-start p-2 ms-1 pointer" title="reload data" id="btn_load" style="width: fit-content; height:fit-content;" onclick="load_data('row=<?=Filter::request(30, 'row')?>')"><input type="hidden" id="val_load" name="" value="0"><div class="bi-arrow-repeat" id="icon_load"></div></div>
+                    <?php endif ?>
                 </div>
             </div>
         </nav>
@@ -95,8 +98,16 @@
                 <li class="<?php if(in_array(PATHURL_ST, ['schedule','reboot'])){echo "active";} ?>">
                     <a class="text-decoration-none m-1" style="border-radius: 5px 15px 5px 15px;" href="#homeSubmenu" data-bs-toggle="collapse" data-bs-target="#menu-collapse" aria-expanded="<?php if(in_array(PATHURL_ST, ['schedule','reboot'])){echo "true";}else{echo "false";} ?>" class="dropdown-toggle"><div class="d-flex justify-content-between"><div class="d-flex"><span class="bi-cpu"></span>&nbsp;Management</div> <span class="bi-chevron-down"></span></div></a>
                     <ul class="collapse list-unstyled <?php if(in_array(PATHURL_ST, ['schedule','reboot'])){echo "show";} ?>" id="menu-collapse">
-                        <li class="<?php if(PATHURL_ST=='schedule'){echo "select";} ?>" >
-                            <a class="text-decoration-none m-1" style="border-radius: 5px 15px 5px 15px;" href="<?=BASEURL?>/schedule"><span class="bi bi-clock-history"></span> Schedule</a>
+                        <li class="<?php if(in_array(PATHURL_ST, ['schedule','boost'])){echo "active";} ?>">
+                            <a class="text-decoration-none m-1" style="border-radius: 5px 15px 5px 15px;" href="#homeSubmenu" data-bs-toggle="collapse" data-bs-target="#menu-collapse-3" aria-expanded="<?php if(in_array(PATHURL_ST, ['schedule'])){echo "true";}else{echo "false";} ?>" class="dropdown-toggle"><div class="d-flex justify-content-between"><div class="d-flex"><span class="bi-clock-history"></span>&nbsp;Schedule</div> <span class="bi-chevron-down"></span></div></a>
+                            <ul class="collapse list-unstyled <?php if(in_array(PATHURL_ST, ['schedule'])){echo "show";} ?>" id="menu-collapse-3">
+                                <li class="<?php if(PATHURL_ND=='reboot'){echo "select";} ?>" >
+                                    <a class="text-decoration-none m-1 ps-5" style="border-radius: 5px 15px 5px 15px;" href="<?=BASEURL?>/schedule/reboot"><span class="bi bi-arrow-clockwise"></span> Reboot</a>
+                                </li>
+                                <li class="<?php if(PATHURL_ND=='boost'){echo "select";} ?>" >
+                                    <a class="text-decoration-none m-1 ps-5" style="border-radius: 5px 15px 5px 15px;" href="<?=BASEURL?>/schedule/boost"><span class="bi bi-speedometer"></span> Boost Limit</a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="<?php if(PATHURL_ST=='reboot'){echo "select";} ?>" >
                             <a class="text-decoration-none m-1 pointer" style="border-radius: 5px 15px 5px 15px;" onclick="return reboot_mikrotik()"><span class="bi bi-power"></span> Reboot Mikrotik</a>

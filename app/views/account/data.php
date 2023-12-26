@@ -16,7 +16,7 @@
 ?>
 <div class="rounded bg-white p-3 shadow">
     <div class="border-bottom pb-1" style="margin-top: -10px;">
-        Data <?=ucwords(PATHURL_ST)?>
+        Data <?=ucwords(PATHURL_ST.' '.PATHURL_ND)?>
     </div>
     <div class="data overflow-auto">
         <div class="d-flex col-md-12 justify-content-center">
