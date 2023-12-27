@@ -183,7 +183,7 @@
                     </div>
                     <?php endif ?>
                     <?php if(!in_array(PATHURL_ST, ['dashboard','pengaturan'])&&PATHURL_ND!='detail'): ?>
-                        <?=Menu::row()?>
+                        <?=Menu::row('load')?>
                     <?php endif ?>
                     <?php if(!in_array(PATHURL_ST, ['dashboard','log','pengaturan','dhcp'])&&PATHURL_ND!='detail'): ?>
                     <button class="btn btn-sm  btn-primary w-auto mb-3" style="height: fit-content" data-bs-toggle="modal" data-bs-target="#Modal"><span class="bi bi-plus-circle"></span> Input Data</button>

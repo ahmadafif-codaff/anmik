@@ -3,21 +3,30 @@
         load_data();
     })
     function search(){
+        var row = $('#row').val();
         var keyword = $('#search').val();
         var by = $('#search_by').val();
-        load_data(<?=Filter::request(30, 'row')?>, keyword, by);
+        load_data(row, keyword, by);
     }
     function search_by(){
+        var row = $('#row').val();
         var keyword = $('#search').val();
         var by = $('#search_by').val();
-        load_data(<?=Filter::request(30, 'row')?>, keyword, by);
+        load_data(row, keyword, by);
+    }
+    function row(){
+        var row = $('#row').val();
+        var keyword = $('#search').val();
+        var by = $('#search_by').val();
+        load_data(row, keyword, by);
     }
     function page($i){
+        var row = $('#row').val();
         var keyword = $('#search').val();
         var by = $('#search_by').val();
-        load_data(<?=Filter::request(30, 'row')?>, keyword, by, $i);
+        load_data(row, keyword, by, $i);
     }
-    function load_data(row=<?=Filter::request(30, 'row')?>, keyword='', searchBy='', page=''){
+    function load_data(row='', keyword='', searchBy='', page=''){
         var data = 'data';
         if('<?=PATHURL_ST?>'=='schedule'){
             data = 'schedule_reboot';

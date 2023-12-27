@@ -52,21 +52,33 @@ class Menu{
         return $data;
         
     }
-    public static function row(){
+    public static function row($load=''){
         $search = Filter::request('','search');
         $rows = Filter::request(30,'row');
-        $data = '
-            <form class="form-group bg-secondary rounded text-light me-1 mb-3" action="" style="width: fit-content; height:fit-content;">
-                <span class="bi bi-eye"></span> <select class="btn btn-sm btn-secondary text-start" name="row" id="" onchange="this.form.submit()">
-                <option selected>Number of rows '.$rows.'</option>
-                <option value="30">30</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
+        $form = 'form';
+        $onchange = 'this.form.submit()';
+        $select = '<option selected>Number of rows '.$rows.'</option>';
+        $text_option = '';
+        
+        if($load=='load'){
+            $form = 'div';
+            $onchange = 'row()';
+            $select = '';
+            $text_option = 'Number of rows ';
+        }
+
+        $data = '<'.$form.' class="form-group bg-secondary rounded text-light me-1 mb-3" action="" style="width: fit-content; height:fit-content;">
+                <span class="bi bi-eye"></span> <select class="btn btn-sm btn-secondary text-start" name="row" id="row" onchange="'.$onchange.'">';
+                
+        $data .= $select.'
+                <option value="30">'.$text_option.'30</option>
+                <option value="50">'.$text_option.'50</option>
+                <option value="100">'.$text_option.'100</option>
             </select>';
         if($search!=''){
             $data .= '<input type="hidden" name="search" value="'.$search.'">';
         }
-        $data .= '</form>';
+        $data .= '</'.$form.'>';
 
         return $data;
                
