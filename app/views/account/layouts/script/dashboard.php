@@ -7,25 +7,36 @@
 
     function dashboard_load(address, date, load='all'){
         if(load=='all'||load=='day'){
-            $('.graph-daily').load('<?=BASEURL?>/dashboard/graph_daily?address='+address+'&date='+date);
-            $('.total-daily').load('<?=BASEURL?>/dashboard/total_daily?address='+address+'&date='+date);
+            graph_load('daily', address, date);
         }
         if(load=='all'||load=='month'){
-            $('.graph-monthly').load('<?=BASEURL?>/dashboard/graph_monthly?address='+address+'&date='+date);
-            $('.total-monthly').load('<?=BASEURL?>/dashboard/total_monthly?address='+address+'&date='+date);
+            graph_load('monthly', address, date);
         }
         if(load=='all'){
-            $('.graph-yearly').load('<?=BASEURL?>/dashboard/graph_yearly?address='+address+'&date='+date);
-            $('.total-yearly').load('<?=BASEURL?>/dashboard/total_yearly?address='+address+'&date='+date);
+            graph_load('yearly', address, date);
             load_client($('#search').val());
         }
     }
+
+    function graph_load(duration, address, date){
+        $('.graph-'+duration).html('<div class="d-flex justify-content-center align-items-center w-100 h-100"><img src="<?=BASEURL?>/img/loading2.gif" alt="loading" style="width:50%;"></div>');
+        $('.total-'+duration).load(location.href + ' .total-'+duration);
+        setTimeout(function(){
+            $('.graph-'+duration).load('<?=BASEURL?>/dashboard/graph_'+duration+'?address='+address+'&date='+date);
+            $('.total-'+duration).load('<?=BASEURL?>/dashboard/total_'+duration+'?address='+address+'&date='+date);
+        },2000);
+    }
+
     function search(){
         var keyword = $('#search').val();
         load_client(keyword);
     }
+
     function load_client(keyword=''){
-        $('.client-list').load('<?=BASEURL?>/dashboard/client_list?search='+keyword);
+        $('.client-list').load(location.href + ' .client-list');
+        setTimeout(function(){
+            $('.client-list').load('<?=BASEURL?>/dashboard/client_list?search='+keyword);
+        },2000);
     }
 
     function day_stat(address='', date='', name=''){

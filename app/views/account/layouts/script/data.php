@@ -27,13 +27,17 @@
         load_data(row, keyword, by, $i);
     }
     function load_data(row='', keyword='', searchBy='', page=''){
-        var data = 'data';
-        if('<?=PATHURL_ST?>'=='schedule'){
-            data = 'schedule_reboot';
-            if('<?=PATHURL_ND?>'=='boost'){
-                data = 'schedule_boost';
+        var row = $('#row').val();
+        $('.data').load(location.href + ' .data');
+        setTimeout(function(){
+            var data = 'data';
+            if('<?=PATHURL_ST?>'=='schedule'){
+                data = 'schedule_reboot';
+                if('<?=PATHURL_ND?>'=='boost'){
+                    data = 'schedule_boost';
+                }
             }
-        }
-        $('.data').load('<?=BASEURL.'/'.PATHURL_ST?>/'+data+'?row='+row+'&search='+keyword+'&page='+page+'&search_by='+searchBy);
+            $('.data').load('<?=BASEURL.'/'.PATHURL_ST?>/'+data+'?row='+row+'&search='+keyword+'&page='+page+'&search_by='+searchBy);
+        },2000);
     }
 </script>

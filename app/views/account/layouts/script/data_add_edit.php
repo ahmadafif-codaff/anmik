@@ -135,11 +135,11 @@
                             timer: 2000,                                
                             showConfirmButton: false
                             });
-                            setTimeout(function() {
+                            // setTimeout(function() {
                                 if(a.type == 'success'){
                                     document.location.href = '';
                                 }
-                            }, 2000);
+                            // }, 2000);
                         }else{
 
                         }

@@ -37,7 +37,7 @@
                                         });
                                         // setTimeout(function() {
                                             if(a.type == 'success'){
-                                                load_data(<?=Filter::request(30, 'row')?>, search, searchBy,  page);
+                                                load_data($('#row').val(), search, searchBy,  page);
                                             }
                                         // }, 2000);
                                     }else{
