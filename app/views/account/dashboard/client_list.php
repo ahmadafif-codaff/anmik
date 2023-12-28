@@ -40,4 +40,9 @@
         </td>
     </tr>
     <?php endforeach ?>
+    <?php if(count($data['client'])==0): ?>
+    <tr>
+        <td class="text-center" colspan="15">Tidak ada data ditemukan</td>
+    </tr>
+    <?php endif ?>
 </table>
