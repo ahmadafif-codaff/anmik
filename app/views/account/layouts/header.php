@@ -58,7 +58,9 @@
                         <div class="border-start p-2 ms-1" title="time"><span class="bi-clock"></span> --:--:--</div>
                     </div>
                     <?php if(!in_array(PATHURL_ST, ['dashboard','pengaturan'])&&PATHURL_ND!='detail'): ?>
-                        <div class="border-start p-2 ms-1 pointer" title="reload data" id="btn_load" style="width: fit-content; height:fit-content;" onclick="load_data('row=<?=Filter::request(30, 'row')?>')"><input type="hidden" id="val_load" name="" value="0"><div class="bi-arrow-repeat" id="icon_load"></div></div>
+                        <div class="border-start p-2 ms-1 pointer" title="reload data" id="btn_load" style="width: fit-content; height:fit-content;" onclick="load_data()"><input type="hidden" id="val_load" name="" value="0"><div class="bi-arrow-repeat" id="icon_load"></div></div>
+                    <?php else: ?>
+                        <a href="" class="border-start p-2 ms-1 pointer" title="reload data" id="btn_load" style="width: fit-content; height:fit-content;"><input type="hidden" id="val_load" name="" value="0"><div class="bi-arrow-repeat" id="icon_load"></div></a>
                     <?php endif ?>
                 </div>
             </div>
