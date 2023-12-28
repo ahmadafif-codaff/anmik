@@ -66,6 +66,7 @@ class Firewall extends Controller{
             $f = [
                 'id'=>$r['.id'],
                 'address'=>$address,
+                'address_num'=>implode(explode('.', implode(explode('/',$address)))),
                 'firewall_status'=>$f_status,
                 'client_status'=>$c_status,
                 'type'=>$type,
@@ -73,7 +74,7 @@ class Firewall extends Controller{
             ];
             $array[] = $f;
         }
-        $array_search = ArrayShow::search($array, Filter::request('address','search_by'), 'json');
+        $array_search = ArrayShow::search($array, Filter::request('address','search_by'), 'address_num', 'asc', 'json');
         $data['firewall'] = $array_search[0];
         $data['page'] = $array_search[1];
         $data['start'] = $array_search[2];

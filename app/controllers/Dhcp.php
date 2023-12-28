@@ -58,13 +58,14 @@ class Dhcp extends Controller{
             $d = [
                 'id' => $r['.id'],
                 'address' => $r['address'],
+                'address_num'=>implode(explode('.', implode(explode('/',$r['address'])))),
                 'mac_address' => $r['mac-address'],
                 'client_id' => $r['client-id'],
                 'server' => $r['server'],
                 'active_address' => $r['active-address'],
                 'active_mac_address' => $r['active-mac-address'],
                 'host_name' => $r['host-name'],
-                'exire_after' => $r['expires-after'],
+                'expires_after' => $r['expires-after'],
                 'status' => $r['status'],
                 'status_static' => $ip,
                 'comment' => ';;; &nbsp; '.$ip.' &nbsp; '.$r['comment'],
@@ -74,7 +75,7 @@ class Dhcp extends Controller{
             $array[] = $d;
         }
 
-        $array_search = ArrayShow::search($array, Filter::request('address','search_by'), 'json');
+        $array_search = ArrayShow::search($array, Filter::request('address','search_by'), 'address_num', 'asc', 'json');
         $data['dhcp-lease'] = $array_search[0];
         $data['page'] = $array_search[1];
         $data['start'] = $array_search[2];

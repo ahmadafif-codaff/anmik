@@ -31,28 +31,28 @@
             <?php 
                 $no = $data['start']+1; foreach ($data['dhcp-lease'] AS $r):
             ?>
-            <tr class="<?=$r->bg?>">
+            <tr class="<?=$r->data->bg?>">
                 <td><?=$no?></td>
-                <td colspan="20"><?=$r->comment?></td>
+                <td colspan="20"><?=$r->data->comment?></td>
             </tr>
-            <tr class="<?=$r->bg?>">
+            <tr class="<?=$r->data->bg?>">
                 <td></td>
-                <td class="font-top"><?=$r->address?></td>
-                <td class="font-top"><?=$r->mac_address?></td>
-                <td class="font-top"><?=$r->client_id?></td>
-                <td class="font-top"><?=$r->server?></td>
-                <td class="font-top"><?=$r->active_address?></td>
-                <td class="font-top"><?=$r->active_mac_address?></td>
-                <td class="font-top"><?=$r->host_name?></td>
-                <td class="font-top"><?=$r->expires_after?></td>
-                <td class="font-top"><?=$r->status?></td>
+                <td class="font-top"><?=$r->data->address?></td>
+                <td class="font-top"><?=$r->data->mac_address?></td>
+                <td class="font-top"><?=$r->data->client_id?></td>
+                <td class="font-top"><?=$r->data->server?></td>
+                <td class="font-top"><?=$r->data->active_address?></td>
+                <td class="font-top"><?=$r->data->active_mac_address?></td>
+                <td class="font-top"><?=$r->data->host_name?></td>
+                <td class="font-top"><?=$r->data->expires_after?></td>
+                <td class="font-top"><?=$r->data->status?></td>
                 <td>
                     <?php if($ip=='Static'):?>
                     <button class="btn btn-sm btn-secondary m-1" data-bs-toggle="tooltip" title="Static"><span class="bi-check-circle"></span></button>
                     <?php else:?>
-                    <button class="btn btn-sm btn-primary m-1" onclick="set_action('static', '<?=$r->id?>', '<?=$r->host_name?>', '<?=Filter::request('', 'search')?>', '<?=Filter::request('', 'search_by')?>',  <?=Filter::request(1, 'page')?>)" data-bs-toggle="tooltip" title="Static"><span class="bi-check-circle"></span></button>
+                    <button class="btn btn-sm btn-primary m-1" onclick="set_action('static', '<?=$r->data->id?>', '<?=$r->data->host_name?>', '<?=Filter::request('', 'search')?>', '<?=Filter::request('', 'search_by')?>',  <?=Filter::request(1, 'page')?>)" data-bs-toggle="tooltip" title="Static"><span class="bi-check-circle"></span></button>
                     <?php endif;?>
-                    <button class="btn btn-sm btn-danger m-1 drop" onclick="return delete_confirm('<?=$r->id?>', '<?=Filter::request('', 'search')?>', '<?=Filter::request('', 'search_by')?>',  <?=Filter::request(1, 'page')?>)"><span class="bi-x-square" title="delete"></span></button>
+                    <button class="btn btn-sm btn-danger m-1 drop" onclick="return delete_confirm('<?=$r->data->id?>', '<?=Filter::request('', 'search')?>', '<?=Filter::request('', 'search_by')?>',  <?=Filter::request(1, 'page')?>)"><span class="bi-x-square" title="delete"></span></button>
                 </td>
             </tr>
             <?php $no++; endforeach ?>

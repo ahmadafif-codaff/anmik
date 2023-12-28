@@ -26,21 +26,21 @@
             <?php 
                 $no = $data['start']+1; foreach ($data['firewall'] AS $r):
             ?>
-            <tr class="<?=$r->bg?>">
+            <tr class="<?=$r->data->bg?>">
                 <td><?=$no?></td>
-                <td><?=$r->address?></td>
-                <td><?=$r->firewall_status?></td>
-                <td><?=$r->client_status?></td>
-                <td><?=$r->type?></td>
+                <td><?=$r->data->address?></td>
+                <td><?=$r->data->firewall_status?></td>
+                <td><?=$r->data->client_status?></td>
+                <td><?=$r->data->type?></td>
                 <td>
-                    <?php if($r->firewall_status=='Activated'):?>
+                    <?php if($r->data->firewall_status=='Activated'):?>
                     <button class="btn btn-sm btn-secondary m-1" data-bs-toggle="tooltip" title="disable"><span class="bi-dash-circle"></span></button>
-                    <button class="btn btn-sm btn-primary m-1" onclick="set_action('status', '<?=$r->id?>', 'true', '<?=Filter::request('', 'search')?>', '<?=Filter::request('', 'search_by')?>',  <?=Filter::request(1, 'page')?>)" data-bs-toggle="tooltip" title="enable"><span class="bi-check-circle"></span></button>
+                    <button class="btn btn-sm btn-primary m-1" onclick="set_action('status', '<?=$r->data->id?>', 'true', '<?=Filter::request('', 'search')?>', '<?=Filter::request('', 'search_by')?>',  <?=Filter::request(1, 'page')?>)" data-bs-toggle="tooltip" title="enable"><span class="bi-check-circle"></span></button>
                     <?php else:?>
-                    <button class="btn btn-sm btn-secondary m-1" onclick="set_action('status', '<?=$r->id?>', 'false', '<?=Filter::request('', 'search')?>', '<?=Filter::request('', 'search_by')?>',  <?=Filter::request(1, 'page')?>)" data-bs-toggle="tooltip" title="disable"><span class="bi-dash-circle"></span></button>
+                    <button class="btn btn-sm btn-secondary m-1" onclick="set_action('status', '<?=$r->data->id?>', 'false', '<?=Filter::request('', 'search')?>', '<?=Filter::request('', 'search_by')?>',  <?=Filter::request(1, 'page')?>)" data-bs-toggle="tooltip" title="disable"><span class="bi-dash-circle"></span></button>
                     <button class="btn btn-sm btn-primary m-1" data-bs-toggle="tooltip" title="enable"><span class="bi-check-circle"></span></button>
                     <?php endif;?>
-                    <a class="btn btn-sm btn-danger m-1 drop" onclick="return delete_confirm('<?=$r->id?>', '<?=Filter::request('', 'search')?>', '<?=Filter::request('', 'search_by')?>',  <?=Filter::request(1, 'page')?>)"><span class="bi bi-x-square" title="delete"></span></a>
+                    <a class="btn btn-sm btn-danger m-1 drop" onclick="return delete_confirm('<?=$r->data->id?>', '<?=Filter::request('', 'search')?>', '<?=Filter::request('', 'search_by')?>',  <?=Filter::request(1, 'page')?>)"><span class="bi bi-x-square" title="delete"></span></a>
                 </td>
                 <td></td>
             </tr>

@@ -129,7 +129,7 @@ class Client extends Controller{
 
             $array = $ra;
 
-            $array_search = ArrayShow::search($array, Filter::request('name','search_by'), 'json');
+            $array_search = ArrayShow::search($array, Filter::request('name','search_by'), 'name', 'asc', 'json');
             $data['client'] = $array_search[0];
             $data['page'] = $array_search[1];
             $data['start'] = $array_search[2];

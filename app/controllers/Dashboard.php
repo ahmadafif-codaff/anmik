@@ -260,6 +260,7 @@ class Dashboard extends Controller{
                         "name"=>$r['name'],
                         "category"=>$p->category,
                         "usage"=>explode(' ',Format::bytes($p->usage)),
+                        "usage_real"=>$p->usage,
                         "status_usage"=>$status_usage,
                         "bg"=>$bg_color,
                         "btn"=>$btn,
@@ -271,7 +272,7 @@ class Dashboard extends Controller{
 
             $array = $ra;
 
-            $array_search = ArrayShow::search($array, 'name', 'json');
+            $array_search = ArrayShow::search($array, 'name', 'usage_real','desc', 'json');
             $data['client'] = $array_search[0];
         }
         $API -> disconnect();

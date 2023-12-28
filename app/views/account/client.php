@@ -35,33 +35,33 @@
     <?php 
         $no = $data['start']+1; foreach ($data['client'] AS $r):
     ?>
-    <tr class="<?=$r->bg?>">
+    <tr class="<?=$r->data->bg?>">
         <td><?=$no?></td>
-        <td><?=$r->date?></td>
-        <td><?=$r->name?></td>
-        <td><?=$r->target?></td>
-        <td><?=$r->download?></td>
-        <td><?=$r->upload?></td>
-        <td><?=$r->usage?></td>
-        <td class="<?=$r->text?>"><?=$r->quota?></td>
-        <td><?=$r->package.' ('.$r->category.')'?></td>
-        <td><?=$r->price?></td>
-        <td><?=$r->status?></td>
+        <td><?=$r->data->date?></td>
+        <td><?=$r->data->name?></td>
+        <td><?=$r->data->target?></td>
+        <td><?=$r->data->download?></td>
+        <td><?=$r->data->upload?></td>
+        <td><?=$r->data->usage?></td>
+        <td class="<?=$r->data->text?>"><?=$r->data->quota?></td>
+        <td><?=$r->data->package.' ('.$r->data->category.')'?></td>
+        <td><?=$r->data->price?></td>
+        <td><?=$r->data->status?></td>
         <td>
-            <?php if($r->status=='Blocked Access'):?>
+            <?php if($r->data->status=='Blocked Access'):?>
             <button class="btn btn-sm btn-secondary m-1" data-bs-toggle="tooltip" title="disable"><span class="bi-dash-circle"></span></button>
-            <button class="btn btn-sm btn-primary m-1" onclick="set_action('status', '<?=$r->id_f?>', 'true', '<?=Filter::request('', 'search')?>', '<?=Filter::request('', 'search_by')?>',  <?=Filter::request(1, 'page')?>)" data-bs-toggle="tooltip" title="enable"><span class="bi-check-circle"></span></button>
+            <button class="btn btn-sm btn-primary m-1" onclick="set_action('status', '<?=$r->data->id_f?>', 'true', '<?=Filter::request('', 'search')?>', '<?=Filter::request('', 'search_by')?>',  <?=Filter::request(1, 'page')?>)" data-bs-toggle="tooltip" title="enable"><span class="bi-check-circle"></span></button>
             <?php else:?>
-            <button class="btn btn-sm btn-secondary m-1" onclick="set_action('status', '<?=$r->id_f?>', 'false', '<?=Filter::request('', 'search')?>', '<?=Filter::request('', 'search_by')?>',  <?=Filter::request(1, 'page')?>)" data-bs-toggle="tooltip" title="disable"><span class="bi-dash-circle"></span></button>
+            <button class="btn btn-sm btn-secondary m-1" onclick="set_action('status', '<?=$r->data->id_f?>', 'false', '<?=Filter::request('', 'search')?>', '<?=Filter::request('', 'search_by')?>',  <?=Filter::request(1, 'page')?>)" data-bs-toggle="tooltip" title="disable"><span class="bi-dash-circle"></span></button>
             <button class="btn btn-sm btn-primary m-1" data-bs-toggle="tooltip" title="enable"><span class="bi-check-circle"></span></button>
             <?php endif;?>
-            <?php if(($r->category=='Regular'&&$r->usage_sub>($r->renew+1)*$r->quota_sub)||$r->category=='Kuota'):?>
-            <button class="btn btn-sm btn-success m-1" onclick="return set_action('renew', '<?=$r->id?>', 'true', '<?=Filter::request('', 'search')?>', '<?=Filter::request('', 'search_by')?>',  <?=Filter::request(1, 'page')?>)" data-bs-toggle="tooltip" title="renew"><span class="bi-arrow-clockwise"></span></button>
+            <?php if(($r->data->category=='Regular'&&$r->data->usage_sub>($r->data->renew+1)*$r->data->quota_sub)||$r->data->category=='Kuota'):?>
+            <button class="btn btn-sm btn-success m-1" onclick="return set_action('renew', '<?=$r->data->id?>', 'true', '<?=Filter::request('', 'search')?>', '<?=Filter::request('', 'search_by')?>',  <?=Filter::request(1, 'page')?>)" data-bs-toggle="tooltip" title="renew"><span class="bi-arrow-clockwise"></span></button>
             <?php else:?>
                 <button class="btn btn-sm btn-secondary m-1" data-bs-toggle="tooltip" title="renew"><span class="bi-arrow-clockwise"></span></button>
             <?php endif;?>
-            <a href="<?=BASEURL.'/'.PATHURL_EXPL[0]?>/detail/<?=$r->id?>" class="btn-sm btn text-light btn-warning bi bi-pencil-square m-1" title="edit"></a>
-            <a class="btn btn-sm btn-danger m-1 drop" onclick="return delete_confirm('<?=$r->id?>', '<?=Filter::request('', 'search')?>', '<?=Filter::request('', 'search_by')?>',  <?=Filter::request(1, 'page')?>)"><span class="bi bi-x-square" title="delete"></span></a>
+            <a href="<?=BASEURL.'/'.PATHURL_EXPL[0]?>/detail/<?=$r->data->id?>" class="btn-sm btn text-light btn-warning bi bi-pencil-square m-1" title="edit"></a>
+            <a class="btn btn-sm btn-danger m-1 drop" onclick="return delete_confirm('<?=$r->data->id?>', '<?=Filter::request('', 'search')?>', '<?=Filter::request('', 'search_by')?>',  <?=Filter::request(1, 'page')?>)"><span class="bi bi-x-square" title="delete"></span></a>
         </td>
         <td></td>
     </tr>

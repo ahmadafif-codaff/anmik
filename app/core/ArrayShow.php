@@ -15,7 +15,7 @@
 */
 
 class ArrayShow{
-    public static function search($array=[], $column, $output='array'){
+    public static function search($array=[], $column, $order_by, $sort='asc', $output='array'){
         $show = Filter::request(30,'row');
         $start = Filter::page(0, $show);
         $keyword = strtolower(Filter::request('', 'search'));
@@ -24,7 +24,7 @@ class ArrayShow{
             $array_show = []; 
             for($x=$start;$x<$show*Filter::request(1,'page');$x++){
                 if($x<count($array)){
-                    $array_show[] = $array[$x];
+                    $array_show[] = ['order'=>$array[$x][$order_by],'data'=>$array[$x]];
                 }
             }
             $page = $array;
@@ -46,14 +46,17 @@ class ArrayShow{
             $array_show = [];
             for($x=$start;$x<$show*Filter::request(1,'page');$x++){
                 if($x<count($array_search)){
-                    $array_show[] = $array_search[$x];
+                    $array_show[] = ['order'=>$array_search[$x][$order_by],'data'=>$array_search[$x]];
                 }
             }
             $data = $array_show;
             $page = $array_search;
         }
                     
-        $data = $array_show;
+        $data = asort($array_show);
+        if(strtolower($sort)=='desc'){
+            $data = arsort($array_show);
+        }
         $page = ceil(count($page)/$show);
         
         if($output=='json'){
