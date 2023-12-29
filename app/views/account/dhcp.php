@@ -47,7 +47,7 @@
                 <td class="font-top"><?=$r->data->expires_after?></td>
                 <td class="font-top"><?=$r->data->status?></td>
                 <td>
-                    <?php if($ip=='Static'):?>
+                    <?php if($r->data->status_static=='Static'):?>
                     <button class="btn btn-sm btn-secondary m-1" data-bs-toggle="tooltip" title="Static"><span class="bi-check-circle"></span></button>
                     <?php else:?>
                     <button class="btn btn-sm btn-primary m-1" onclick="set_action('static', '<?=$r->data->id?>', '<?=$r->data->host_name?>', '<?=Filter::request('', 'search')?>', '<?=Filter::request('', 'search_by')?>',  <?=Filter::request(1, 'page')?>)" data-bs-toggle="tooltip" title="Static"><span class="bi-check-circle"></span></button>
