@@ -28,7 +28,7 @@
     }
     function load_data(row='', keyword='', searchBy='', page=''){
         var row = $('#row').val();
-        $('.data').load(location.href + ' .data');
+        $('.data').html('<div class="d-flex col-md-12 justify-content-center"><img src="<?=BASEURL?>/img/loading2.gif" alt="loading" style="width:50%;"></div>');
         setTimeout(function(){
             var data = 'data';
             if('<?=PATHURL_ST?>'=='schedule'){
