@@ -104,7 +104,7 @@ class Dashboard extends Controller{
             echo 
                 '<h3 class="pe-5">'.$count_client.'</h3>
                 <p>Acivated <br>Nonactivated</p>
-                <p>&nbsp; : '.$count_status['true'].'<br>&nbsp; : '.$count_status['false'].'</p>';
+                <p>&nbsp; : '.number_format($count_status['true']).'<br>&nbsp; : '.number_format($count_status['false']).'</p>';
         }
         $API -> disconnect();
     }
