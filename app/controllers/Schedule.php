@@ -43,7 +43,10 @@ class Schedule extends Controller{
         $data['title'] = "Schedule";
         $data['user'] = $this->model('SessionModel')->user();
 
-        $data['data'] = $this->model('AllModel')->data($this->table, "time LIKE '%$search%' AND type='reboot' OR frequency LIKE '%$search%' AND type='reboot' LIMIT $start,$show");
+        $sort_by = explode('|', Filter::request('id_schedule|ASC', 'sort_by'));
+        $order = $sort_by[0].' '.$sort_by[1];
+
+        $data['data'] = $this->model('AllModel')->data($this->table, "time LIKE '%$search%' AND type='reboot' OR frequency LIKE '%$search%' AND type='reboot' ORDER BY $order LIMIT $start,$show");
         $count_all = count($this->model('AllModel')->data($this->table, "time LIKE '%$search%' AND type='reboot' OR frequency LIKE '%$search%' AND type='reboot'"));
         $data['count_data'] = count($data['data']) ;
         $data['start'] = $start;
@@ -61,7 +64,10 @@ class Schedule extends Controller{
         $data['title'] = "Schedule";
         $data['user'] = $this->model('SessionModel')->user();
 
-        $data['data'] = $this->model('AllModel')->data($this->table, "time LIKE '%$search%' AND type='boost' OR frequency LIKE '%$search%' AND type='boost' LIMIT $start,$show");
+        $sort_by = explode('|', Filter::request('id_schedule|ASC', 'sort_by'));
+        $order = $sort_by[0].' '.$sort_by[1];
+
+        $data['data'] = $this->model('AllModel')->data($this->table, "time LIKE '%$search%' AND type='boost' OR frequency LIKE '%$search%' AND type='boost' ORDER BY $order LIMIT $start,$show");
         $count_all = count($this->model('AllModel')->data($this->table, "time LIKE '%$search%' AND type='boost' OR frequency LIKE '%$search%' AND type='boost'"));
         $data['count_data'] = count($data['data']) ;
         $data['start'] = $start;

@@ -42,7 +42,10 @@ class Paket extends Controller{
         $data['title'] = "Paket";
         $data['user'] = $this->user;
 
-        $paket = $this->model('AllModel')->dataArr($this->table, '*', "nama LIKE '%$search%' OR harga LIKE '%$search%' OR kategori LIKE '%$search%' OR max_upload LIKE '%$search%' OR max_download LIKE '%$search%' OR kuota LIKE '%$search%' LIMIT $start,$show");
+        $sort_by = explode('|', Filter::request('id_paket|ASC', 'sort_by'));
+        $order = $sort_by[0].' '.$sort_by[1];
+
+        $paket = $this->model('AllModel')->dataArr($this->table, '*', "nama LIKE '%$search%' OR harga LIKE '%$search%' OR kategori LIKE '%$search%' OR max_upload LIKE '%$search%' OR max_download LIKE '%$search%' OR kuota LIKE '%$search%' ORDER BY $order LIMIT $start,$show");
         $array = [];
         foreach ($paket as $r){
             $kategori = $r['kategori'];

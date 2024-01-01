@@ -70,6 +70,10 @@ class Client extends Controller{
 
                     $status = $f['disabled'];
                     $id_f = $f['.id'];
+
+                    if($date==''){
+                        $date = '-';
+                    }
         
                     if($renew>0&&$category=='Regular'){
                         $quota *= ($renew+1);
@@ -110,6 +114,8 @@ class Client extends Controller{
                         "target"=>$target,
                         "upload"=>$upload,
                         "download"=>$download,
+                        "upload_num"=>$limit[0],
+                        "download_num"=>$limit[1],
                         "usage"=>$usage,
                         "usage_sub"=>$usage_sub,
                         "quota"=>$quota,
@@ -118,6 +124,7 @@ class Client extends Controller{
                         "renew"=>$renew,
                         "category"=>$category,
                         "price"=>$price,
+                        "price_sub"=>$p->price,
                         "status"=>$c_status,
                         "id_f"=>$id_f,
                         "bg"=>$bg_color,
@@ -129,7 +136,8 @@ class Client extends Controller{
 
             $array = $ra;
 
-            $array_search = ArrayShow::search($array, Filter::request('name','search_by'), 'name', 'asc', 'json');
+            $sort_by = explode('|', Filter::request('name|ASC', 'sort_by'));
+            $array_search = ArrayShow::search($array, Filter::request('address','search_by'), $sort_by[0],  $sort_by[1], 'json');
             $data['client'] = $array_search[0];
             $data['page'] = $array_search[1];
             $data['start'] = $array_search[2];

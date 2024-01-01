@@ -27,7 +27,7 @@
         },2000);
     }
 
-    function search(){
+    function load_data(){
         var keyword = $('#search').val();
         load_client(keyword);
     }

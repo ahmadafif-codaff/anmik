@@ -24,7 +24,7 @@ class Menu{
         $button = '<button type="submit" class="btn btn-sm btn-primary bi bi-search rounded rounded-end-5"></button>';
         if($load == 'load'){
             $form = 'div';
-            $keyup = ' onkeyup="search() "';
+            $keyup = ' onkeyup="load_data() "';
             $rounded_end = ' rounded-end-5 ';
             $button = '';
         }
@@ -42,7 +42,7 @@ class Menu{
         }
         if(count($input_by)>0){
             $data .= '
-            <select name="search_by" id="search_by" class="btn btn-sm btn-primary text-start" onchange="search_by()">'.
+            <select name="search_by" id="search_by" class="btn btn-sm btn-primary text-start" onchange="load_data()">'.
                 // '<option value="'.$input_by[0].'">Search by ('.$input_by[0].')</option>'.
                 $option.
             '</select>';
@@ -62,7 +62,7 @@ class Menu{
         
         if($load=='load'){
             $form = 'div';
-            $onchange = 'row()';
+            $onchange = 'load_data()';
             $select = '';
             $text_option = 'Number of rows ';
         }
@@ -74,6 +74,49 @@ class Menu{
                 <option value="30">'.$text_option.'30</option>
                 <option value="50">'.$text_option.'50</option>
                 <option value="100">'.$text_option.'100</option>
+            </select>';
+        if($search!=''){
+            $data .= '<input type="hidden" name="search" value="'.$search.'">';
+        }
+        $data .= '</'.$form.'>';
+
+        return $data;
+               
+    }
+    public static function sort($load='', $sort_by=[], $default_sort='ASC'){
+        $search = Filter::request('','search');
+        $rows = Filter::request(30,'row');
+        $sort = Filter::request('','sort_by');
+        $form = 'form';
+        $onchange = 'this.form.submit()';
+        $select = '<option selected>Sort By '.explode('|', $sort)[0].' ('.explode('|', $sort)[1].')</option>';
+
+        $sort_st = 'ASC';
+        $sort_nd = 'DESC';
+        
+        if($load=='load'){
+            $form = 'div';
+            $onchange = 'load_data()';
+            $select = '';
+        }
+
+        if($default_sort=='DESC'){
+            $sort_st = 'DESC';
+            $sort_nd = 'ASC';
+        }
+
+        if(count($sort_by)>0){
+            $by = [];
+            foreach($sort_by as $r){
+                $by[] = '<option value="'.$r.'|'.$sort_st.'">Sort by '.$r.' ('.$sort_st.')</option><option value="'.$r.'|'.$sort_nd.'">Sort by '.$r.' ('.$sort_nd.')</option>';
+            }
+            $option = implode($by);
+        }
+
+        $data = '<'.$form.' class="form-group bg-secondary rounded text-light me-1 mb-3" action="" style="width: fit-content; height:fit-content;">
+                <span class="bi bi-sort-down"></span> <select class="btn btn-sm btn-secondary text-start" name="sort_by" id="sort_by" onchange="'.$onchange.'">';
+                
+        $data .= $select.$option.'
             </select>';
         if($search!=''){
             $data .= '<input type="hidden" name="search" value="'.$search.'">';

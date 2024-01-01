@@ -40,7 +40,10 @@ class Log extends Controller{
         $data['title'] = "Historry Log";
         $data['user'] = $this->model('SessionModel')->user();
 
-        $log = $this->model('AllModel')->dataArr($this->table, '*', "time LIKE '%$search%' OR ip LIKE '%$search%' OR browser LIKE '%$search%' OR so LIKE '%$search%' OR message LIKE '%$search%' OR action LIKE '%$search%' ORDER BY time DESC LIMIT $start,$show");
+        $sort_by = explode('|', Filter::request('time|DESC', 'sort_by'));
+        $order = $sort_by[0].' '.$sort_by[1];
+
+        $log = $this->model('AllModel')->dataArr($this->table, '*', "time LIKE '%$search%' OR ip LIKE '%$search%' OR browser LIKE '%$search%' OR so LIKE '%$search%' OR message LIKE '%$search%' OR action LIKE '%$search%' ORDER BY $order LIMIT $start,$show");
         $array = [];
         foreach ($log as $r){
             $bg_color = '';

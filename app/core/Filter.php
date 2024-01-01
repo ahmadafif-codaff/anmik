@@ -39,6 +39,11 @@ class Filter{
                         $data = explode('=',explode('&',explode('?',$_SERVER['REQUEST_URI'])[1])[3])[1];
                     }
                 }
+                if(array_count_values(str_split($_SERVER['REQUEST_URI']))['&']>3){
+                    if(explode('=',explode('&',explode('?',$_SERVER['REQUEST_URI'])[1])[4])[0]==$param){
+                        $data = explode('=',explode('&',explode('?',$_SERVER['REQUEST_URI'])[1])[4])[1];
+                    }
+                }
             }
         }
 

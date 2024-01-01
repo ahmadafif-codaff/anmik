@@ -75,7 +75,8 @@ class Dhcp extends Controller{
             $array[] = $d;
         }
 
-        $array_search = ArrayShow::search($array, Filter::request('address','search_by'), 'address_num', 'asc', 'json');
+        $sort_by = explode('|', Filter::request('address_num|ASC', 'sort_by'));
+        $array_search = ArrayShow::search($array, Filter::request('address','search_by'), $sort_by[0],  $sort_by[1], 'json');
         $data['dhcp-lease'] = $array_search[0];
         $data['page'] = $array_search[1];
         $data['start'] = $array_search[2];

@@ -31,7 +31,7 @@
                                         });
                                         // setTimeout(function() {
                                             if(a.type == 'success'){
-                                                load_data($('#row').val(), search, searchBy,  page);
+                                                load_data(page);
                                             }
                                         // }, 2000);
                                     }else{

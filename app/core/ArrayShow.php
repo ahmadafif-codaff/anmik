@@ -15,19 +15,58 @@
 */
 
 class ArrayShow{
-    public static function search($array=[], $column, $order_by, $sort='asc', $output='array'){
+    private static function order($array=[], $order_by, $sort){
+        $array1 = [];
+        foreach($array as $as){
+            $array1[] = ['order'=>$as[$order_by],'data'=>$as];
+        }
+
+        $array_sort = asort($array1);
+
+        if(strtolower($sort)=='desc'){
+            $array_sort = arsort($array1);
+        }
+        
+        $array_sort = json_decode(json_encode($array1));
+
+        $array2 = [];
+        foreach($array_sort as $as){
+            $array2[] = ['order'=>$as->order,'data'=>$as->data];
+        }
+
+        return $array2;
+    }
+
+    public static function all($array=[], $order_by, $sort, $output='array'){
         $show = Filter::request(30,'row');
         $start = Filter::page(0, $show);
-        $keyword = strtolower(Filter::request('', 'search'));
+        $array2 = self::order($array, $order_by, $sort);
 
-        if($keyword==''){
-            $array_show = []; 
-            for($x=$start;$x<$show*Filter::request(1,'page');$x++){
-                if($x<count($array)){
-                    $array_show[] = ['order'=>$array[$x][$order_by],'data'=>$array[$x]];
-                }
+        $array_show = []; 
+        for($x=$start;$x<$show*Filter::request(1,'page');$x++){
+            if($x<count($array2)){
+                $array_show[] = $array2[$x];
             }
-            $page = $array;
+        }
+
+        $page = $array;
+        $data = $array_show;
+        $page = ceil(count($page)/$show);
+        
+        if($output=='json'){
+            $data = json_decode(json_encode($array_show));
+        }
+
+        $output = [$data, $page, $start];
+
+        return $output;
+    }
+
+    public static function search($array=[], $column, $order_by, $sort='asc', $output='array'){
+        $keyword = strtolower(Filter::request('', 'search'));
+        
+        if($keyword==''){
+            $array_show = self::all($array, $order_by, $sort, $output);
         }else{
             $array_search = [];
             foreach($array as $key => $r){
@@ -43,28 +82,10 @@ class ArrayShow{
                     $array_search[]=$array[$search];
                 }
             };
-            $array_show = [];
-            for($x=$start;$x<$show*Filter::request(1,'page');$x++){
-                if($x<count($array_search)){
-                    $array_show[] = ['order'=>$array_search[$x][$order_by],'data'=>$array_search[$x]];
-                }
-            }
-            $data = $array_show;
-            $page = $array_search;
+            $array_show = self::all($array_search, $order_by, $sort, $output);
         }
-                    
-        $data = asort($array_show);
-        if(strtolower($sort)=='desc'){
-            $data = arsort($array_show);
-        }
-        $page = ceil(count($page)/$show);
-        
-        if($output=='json'){
-            $data = json_decode(json_encode($array_show));
-        }
-        $output = [$data, $page, $start];
 
-        return $output;
+        return $array_show;
     }
 }
 

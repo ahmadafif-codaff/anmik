@@ -185,6 +185,19 @@
                     </div>
                     <?php endif ?>
                     <?php if(!in_array(PATHURL_ST, ['dashboard','pengaturan'])&&PATHURL_ND!='detail'): ?>
+                    <?php if(PATHURL_ST=='paket'):?>
+                        <?=Menu::sort('load', ['id_paket', 'nama','harga','kategori','max_upload','max_download', 'bandwidth_kedua', 'bandwidth_ketiga', 'kuota', 'kuota_kedua'])?>
+                    <?php elseif(PATHURL_ST=='dhcp'):?>
+                        <?=Menu::sort('load', ['address_num','mac_address','server','host_name','status', 'status_static'])?>
+                    <?php elseif(PATHURL_ST=='firewall'):?>
+                        <?=Menu::sort('load', ['address_num','firewall_status', 'client_status', 'type'])?>
+                    <?php elseif(PATHURL_ST=='client'):?>
+                        <?=Menu::sort('load',['name','target','date','download_num','upload_num','usage_sub','quota_sub','package','category','price_sub','status'])?>
+                    <?php elseif(PATHURL_ST=='schedule'):?>
+                        <?=Menu::sort('load',['id_schedule','frequency'])?>
+                    <?php elseif(PATHURL_ST=='log'):?>
+                        <?=Menu::sort('load',['time','ip', 'browser', 'so', 'action', 'status', 'message'], 'DESC')?>
+                    <?php endif?>
                         <?=Menu::row('load')?>
                     <?php endif ?>
                     <?php if(!in_array(PATHURL_ST, ['dashboard','log','pengaturan','dhcp'])&&PATHURL_ND!='detail'): ?>
