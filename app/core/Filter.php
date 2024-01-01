@@ -29,19 +29,11 @@ class Filter{
                 if(explode('=',explode('&',explode('?',$_SERVER['REQUEST_URI'])[1])[1])[0]==$param){
                     $data = explode('=',explode('&',explode('?',$_SERVER['REQUEST_URI'])[1])[1])[1];
                 }
-                if(array_count_values(str_split($_SERVER['REQUEST_URI']))['&']>1){
-                    if(explode('=',explode('&',explode('?',$_SERVER['REQUEST_URI'])[1])[2])[0]==$param){
-                        $data = explode('=',explode('&',explode('?',$_SERVER['REQUEST_URI'])[1])[2])[1];
-                    }
-                }
-                if(array_count_values(str_split($_SERVER['REQUEST_URI']))['&']>2){
-                    if(explode('=',explode('&',explode('?',$_SERVER['REQUEST_URI'])[1])[3])[0]==$param){
-                        $data = explode('=',explode('&',explode('?',$_SERVER['REQUEST_URI'])[1])[3])[1];
-                    }
-                }
-                if(array_count_values(str_split($_SERVER['REQUEST_URI']))['&']>3){
-                    if(explode('=',explode('&',explode('?',$_SERVER['REQUEST_URI'])[1])[4])[0]==$param){
-                        $data = explode('=',explode('&',explode('?',$_SERVER['REQUEST_URI'])[1])[4])[1];
+                for($i=1; $i<=10; $i++){
+                    if(array_count_values(str_split($_SERVER['REQUEST_URI']))['&']>$i){
+                        if(explode('=',explode('&',explode('?',$_SERVER['REQUEST_URI'])[1])[$i+1])[0]==$param){
+                            $data = explode('=',explode('&',explode('?',$_SERVER['REQUEST_URI'])[1])[$i+1])[1];
+                        }
                     }
                 }
             }
@@ -123,18 +115,13 @@ class Filter{
                     if(!preg_match($int, $page)||preg_match($string, $page)||preg_match($char, $page)){$page = 1;}
                     $data = ($page*$show)-$show;
                 }
-                if(array_count_values(str_split($_SERVER['REQUEST_URI']))['&']>1){
-                    if(explode('=',explode('&',explode('?',$_SERVER['REQUEST_URI'])[1])[2])[0]=='page'){
-                        $page = explode('=',explode('&',explode('?',$_SERVER['REQUEST_URI'])[1])[2])[1];
-                    if(!preg_match($int, $page)||preg_match($string, $page)||preg_match($char, $page)){$page = 1;}
-                    $data = ($page*$show)-$show;
-                    }
-                }
-                if(array_count_values(str_split($_SERVER['REQUEST_URI']))['&']>2){
-                    if(explode('=',explode('&',explode('?',$_SERVER['REQUEST_URI'])[1])[3])[0]=='page'){
-                        $page = explode('=',explode('&',explode('?',$_SERVER['REQUEST_URI'])[1])[3])[1];
-                    if(!preg_match($int, $page)||preg_match($string, $page)||preg_match($char, $page)){$page = 1;}
-                    $data = ($page*$show)-$show;
+                for($i=1; $i<=10; $i++){
+                    if(array_count_values(str_split($_SERVER['REQUEST_URI']))['&']>$i){
+                        if(explode('=',explode('&',explode('?',$_SERVER['REQUEST_URI'])[1])[$i+1])[0]=='page'){
+                            $page = explode('=',explode('&',explode('?',$_SERVER['REQUEST_URI'])[1])[$i+1])[1];
+                        if(!preg_match($int, $page)||preg_match($string, $page)||preg_match($char, $page)){$page = 1;}
+                        $data = ($page*$show)-$show;
+                        }
                     }
                 }
             }
