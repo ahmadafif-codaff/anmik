@@ -1,3 +1,19 @@
+<?php
+/* 
+    ******************************************
+    ANMIK
+    Copyright © 2023 Codaff Project
+
+    By :
+        Ahmad Afif
+        ahmadafif.codaff@gmail.com
+        https://github.com/ahmadafif-codaff/anmik
+
+    This program is free software
+    You can redistribute it and/or modify
+    ******************************************
+*/
+?>
 <script>
     function set_action(action, id, value, search='', searchBy='', page){
         var form_data = new FormData();

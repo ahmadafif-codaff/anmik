@@ -5,7 +5,7 @@
     Copyright © 2023 Codaff Project
 
     By :
-        Ahmaf Afif
+        Ahmad Afif
         ahmadafif.codaff@gmail.com
         https://github.com/ahmadafif-codaff/anmik
 
