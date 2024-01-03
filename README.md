@@ -40,11 +40,24 @@ For instalation follow this :
 If the web server has been installed correctly, then :
 1. Open the web browser then follow links http://localhost/anmik/login ("anmik" change to directory where you place master file). You will be directed to the login page.
 2. Login to ANMIK using username : anmik, and password : Anmik123. If login correctly you will be directed to the dashboard page.
+![314](https://codaffproject.my.id/img/anmik-dashboard.gif)
 3. On the ANMIK web server, click the ip/dhcp-lease menu and all connected client routers will be displayed. (Please note that the connected client router must be connected to the Mikrotik router in router hotspot mode and by getting the IP dynamically. This is used to find out which routers are on and off).
+![314](https://codaffproject.my.id/img/anmik-dhcp-lease.png)
 4. Still on the ip/dhcp page, if youre router client get IP dynamically (marked with a yellow background), click button check, then status will be changed to static ip (marked with a white background). This is used to prevent the IP address from being used by other client routers.
 5. Then move to the firewall page by clicking ip/firewall menu, click generate firewall button to quickly create the firewall. This is used to block internet access for unauthorized IP addresses.
+![314](https://codaffproject.my.id/img/anmik-firewall.gif)
 6. Open the package page and make a package according to what will be used.
+![314](https://codaffproject.my.id/img/anmik-paket.gif)
 7. Make client with clicking client menu, then create a client according to the client router IP and the package the client will use.
+![314](https://codaffproject.my.id/img/anmik-client.gif)
+8. Go to the schedule reboot page to make the router reboot on a scheduled basis. This schedule is divided into 2 types, namely day and hour.
+![314](https://codaffproject.my.id/img/anmik-schedule-reboot.gif)
+9. On the schedule boost page, it is used to create a predetermined client speed increase schedule. This schedule is divided into 2 types, namely repeat and one time.
+![314](https://codaffproject.my.id/img/anmik-schedule-boost.gif)
+10. Press the Mikrotik reboot menu button to reboot the Mikrotik from the web server.
+![314](https://codaffproject.my.id/img/anmik-reboot.gif)
+11. Click the logging menu button to display the activity log. Here all activities will be shown, both data changes made by the admin or from the server itself.
+![314](https://codaffproject.my.id/img/anmik-log.gif)
 
 
 
