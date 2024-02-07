@@ -61,7 +61,8 @@ class Client extends Controller{
                     $usage = $p->usage;
                     $usage = Format::bytes($usage, 'byte');
                     $usage_sub = $p->usage/1000000000; 
-                    $quota = $p->quota;
+                    $quota_expl = explode('|', $p->quota);
+                    $quota = $quota_expl[0];
                     $package = $p->package;
                     $category = $p->category;
                     $renew = $p->renew;
@@ -87,7 +88,7 @@ class Client extends Controller{
                         $text_color = 'text-danger';
                     }else{
                         if($usage_sub>$quota&&$category=='Regular'){
-                            $quota = $p->quota2;
+                            $quota = $quota_expl[1];
                             if($usage_sub>$quota){
                                 $quota = 'Last Bandwidth';
                                 $text_color = 'text-danger';
@@ -119,7 +120,7 @@ class Client extends Controller{
                         "usage"=>$usage,
                         "usage_sub"=>$usage_sub,
                         "quota"=>$quota,
-                        "quota_sub"=>$p->quota,
+                        "quota_sub"=>$quota_expl[0],
                         "package"=>$package,
                         "renew"=>$renew,
                         "category"=>$category,
@@ -269,7 +270,11 @@ class Client extends Controller{
         $bandwidth2_paket = $upload*$bandwidth2_paket.'/'.$download*$bandwidth2_paket;
         $bandwidth3_paket = $upload*$bandwidth3_paket.'/'.$download*$bandwidth3_paket;
 
-        $comment = '{"date":"'.$tanggal.'","package":"'.$nama_paket.'","price":"'.$harga_paket.'","category":"'.$kategori_paket.'","bandwidth":"'.$bandwidth_paket.'","bandwidth2":"'.$bandwidth2_paket.'","bandwidth3":"'.$bandwidth3_paket.'","quota":"'.$kuota_paket.'","quota2":"'.$kuota2_paket.'","renew":"0","input_date":"'.DATENOW.'","usage":"0"}';
+        $comment = '{"date":"'.$tanggal.'","package":"'.$nama_paket.'","price":"'.$harga_paket.'","category":"'.$kategori_paket.'","bandwidth":"'.$bandwidth_paket.'|'.$bandwidth2_paket.'|'.$bandwidth3_paket.'","quota":"'.$kuota_paket.'|'.$kuota2_paket.'","renew":"0","input_date":"'.DATENOW.'","usage":"0"}';
+
+        if($tanggal == ''){
+            $tanggal = '-';
+        }
 
         $rules = [
             "tanggal"=>"$tanggal=required",
@@ -342,7 +347,11 @@ class Client extends Controller{
         $last_input = $oc->input_date;
         $usage = $oc->usage;
 
-        $comment = '{"date":"'.$tanggal.'","package":"'.$nama_paket.'","price":"'.$harga_paket.'","category":"'.$kategori_paket.'","bandwidth":"'.$bandwidth_paket.'","bandwidth2":"'.$bandwidth2_paket.'","bandwidth3":"'.$bandwidth3_paket.'","quota":"'.$kuota_paket.'","quota2":"'.$kuota2_paket.'","renew":"'.$renew.'","input_date":"'.$last_input.'","usage":"'.$usage.'"}';
+        $comment = '{"date":"'.$tanggal.'","package":"'.$nama_paket.'","price":"'.$harga_paket.'","category":"'.$kategori_paket.'","bandwidth":"'.$bandwidth_paket.'|'.$bandwidth2_paket.'|'.$bandwidth3_paket.'","quota":"'.$kuota_paket.'|'.$kuota2_paket.'","renew":"'.$renew.'","input_date":"'.$last_input.'","usage":"'.$usage.'"}';
+
+        if($tanggal == ''){
+            $tanggal = '-';
+        }
 
         $rules = [
             "tanggal"=>"$tanggal=required",

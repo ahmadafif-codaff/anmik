@@ -227,9 +227,11 @@ class Dashboard extends Controller{
                         $p->quota2 *= ($p->renew+1);
                     }
 
-                    $status_usage = substr($p->usage/1000000000,0,5)/$p->quota2*100;
+                    $quota = explode('|', $p->quota);
+
+                    $status_usage = substr($p->usage/1000000000,0,5)/$quota[1]*100;
                     if($p->category=='Kuota'){
-                        $status_usage = substr($p->usage/1000000000,0,5)/$p->quota*100;
+                        $status_usage = substr($p->usage/1000000000,0,5)/$quota[0]*100;
                         $btn = 'btn-danger';
                     }else{
                         $btn = 'btn-success';

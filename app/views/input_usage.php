@@ -101,25 +101,30 @@ if(!in_array($ip, $ip_acc)){
                                             $package = $p->package; 
                                             $price = $p->price; 
                                             $category = $p->category; 
-                                            $bandwidth = explode('/',$p->bandwidth); 
-                                            $bandwidth2 = explode('/',$p->bandwidth2); 
-                                            $bandwidth3 = explode('/',$p->bandwidth3); 
-                                            $quota = $p->quota; 
-                                            $quota2 = $p->quota2; 
+                                            $bandwidth = explode('|',$p->bandwidth); 
+                                            $bandwidth1 = explode('/',$bandwidth[0]); 
+                                            $bandwidth2 = explode('/',$bandwidth[1]); 
+                                            $bandwidth3 = explode('/',$bandwidth[2]); 
+                                            $quota = explode('|',$p->quota); 
+                                            $quota1 = $quota[0]; 
+                                            $quota2 = $quota[1]; 
                                             $renew = $p->renew; 
                                             $input_date = $p->input_date; 
                                             $usage = $p->usage;
                                             
-                                            $limit = ($bandwidth[0]*1000000).'/'.($bandwidth[1]*1000000);
+                                            $limit1 = ($bandwidth1[0]*1000000).'/'.($bandwidth1[1]*1000000);
                                             $limit2 = ($bandwidth2[0]*1000000).'/'.($bandwidth2[1]*1000000);
                                             $limit3 = ($bandwidth3[0]*1000000).'/'.($bandwidth3[1]*1000000);
             
-                                            $comment = '{"date":"'.$date.'","package":"'.$package.'","price":"'.$price.'","category":"'.$category.'","bandwidth":"'.$bandwidth[0].'/'.$bandwidth[1].'",';
-                                            if($category=='Kuota'){
-                                                $comment .= '"quota":"'.$quota.'",';
+                                            $comment = '{"date":"'.$date.'","package":"'.$package.'","price":"'.$price.'","category":"'.$category.'",';
+                                            if(in_array($category, ['Kuota', 'Premium'])){
+                                                $comment .= '"bandwidth":"'.$bandwidth1[0].'/'.$bandwidth1[1].'",';
+                                                if($category=='Kuota'){
+                                                    $comment .= '"quota":"'.$quota1.'",';
+                                                }
                                             }
                                             if($category=='Regular'){
-                                                $comment .= '"bandwidth2":"'.$bandwidth2[0].'/'.$bandwidth2[1].'","bandwidth3":"'.$bandwidth3[0].'/'.$bandwidth3[1].'","quota":"'.$quota.'","quota2":"'.$quota2.'",';
+                                                $comment .= '"bandwidth":"'.$bandwidth1[0].'/'.$bandwidth1[1].'|'.$bandwidth2[0].'/'.$bandwidth2[1].'|'.$bandwidth3[0].'/'.$bandwidth3[1].'","quota":"'.$quota1.'|'.$quota2.'",';
                                             }
 
                                             $upload = $bytes[0];
@@ -186,8 +191,8 @@ if(!in_array($ip, $ip_acc)){
                                                 $status = $API->comm('/ip/firewall/filter/print', ['?src-address'=>"$target"])[0]['disabled'];
                                                 if($status=='true'){
                                                     if(count($boost_client)<1){
-                                                        if($max_limit!=$limit){
-                                                            MikrotikAPI::single_set('simple', $id, 'limit', $limit);
+                                                        if($max_limit!=$limit1){
+                                                            MikrotikAPI::single_set('simple', $id, 'limit', $limit1);
                                                             Logging::log('reset_bandwidth', 1, "Pengembalian kecepatan <i>$name</i> ke kecepatan semula", '@from_server');
                                                         }
                                                     }
@@ -204,7 +209,7 @@ if(!in_array($ip, $ip_acc)){
                                                             $this->model('AllModel')->insert("usages","null, null, '0', '0', '$id'");
                                                         }
                                                     }
-                                                    if(($usage/1000000000)>=$quota){
+                                                    if(($usage/1000000000)>=$quota1){
                                                         $id_f = $API->comm('/ip/firewall/filter/print', ['?src-address'=>"$target"])[0]['.id'];
                                                         MikrotikAPI::single_set('firewall', $id_f, 'disabled', 'false');
                                                         Logging::log('nonactivated', 1, "Pemakaian <i>$name</i> sudah melampaui batas kuota, internet dinonaktifkan", '@from_server');
@@ -214,8 +219,14 @@ if(!in_array($ip, $ip_acc)){
                                                 if((substr($input_date,0,16)!=substr($time,0,16))){
                                                     if(substr($input_date,0,7)==substr($time,0,7)){
                                                         $usage += $bytes[0]+$bytes[1];
+
+                                                        if($category=='Regular'){
+                                                            if($renew>0){
+                                                                $comment .= '"renew":"'.$renew.'",';
+                                                            }
+                                                        }
                                                         
-                                                        $comment .= '"renew":"'.$renew.'","input_date":"'.DATENOW.'","usage":"'.$usage.'"}';
+                                                        $comment .= '"input_date":"'.DATENOW.'","usage":"'.$usage.'"}';
                                                     }else{
                                                         $comment .= '"renew":"0","input_date":"'.DATENOW.'","usage":"0"}';
                                                     }
@@ -232,24 +243,24 @@ if(!in_array($ip, $ip_acc)){
                                                 if(count($boost_client)<1){
                                                     
                                                     if($category=='Premium'){
-                                                        if($max_limit!=$limit){
-                                                            MikrotikAPI::single_set('simple', $id, 'limit', $limit);
+                                                        if($max_limit!=$limit1){
+                                                            MikrotikAPI::single_set('simple', $id, 'limit', $limit1);
                                                             Logging::log('reset_bandwidth', 1, "Pengembalian kecepatan <i>$name</i> ke kecepatan semula", '@from_server');
                                                         }
                                                     }
                     
                                                     if($category=='Regular'){
                                                         if($renew>0){
-                                                            $quota *= $renew+1;
+                                                            $quota1 *= $renew+1;
                                                             $quota2 *= $renew+1;
                                                         }
-                                                        if(($usage/1000000000)<$quota){
-                                                            if($max_limit!=$limit){
-                                                                MikrotikAPI::single_set('simple', $id, 'limit', $limit);
+                                                        if(($usage/1000000000)<$quota1){
+                                                            if($max_limit!=$limit1){
+                                                                MikrotikAPI::single_set('simple', $id, 'limit', $limit1);
                                                                 Logging::log('reset_bandwidth', 1, "Pengembalian kecepatan <i>$name</i> ke kecepatan awal", '@from_server');
                                                             }
                                                         }
-                                                        elseif(($usage/1000000000)>=$quota){
+                                                        elseif(($usage/1000000000)>=$quota1){
                                                             if(($usage/1000000000)>=$quota2){
                                                                 if($max_limit!=$limit3){
                                                                     MikrotikAPI::single_set('simple', $id, 'limit', $limit3);
