@@ -48,7 +48,8 @@ If the web server has been installed correctly, then :
 ![anmik-firewall](https://github.com/ahmadafif-codaff/master-img/assets/146537873/dc4ade8b-7491-44f5-b0e4-f5a393ac4a52)
 6. Open the package page and make a package according to what will be used.
 ![anmik-paket](https://github.com/ahmadafif-codaff/master-img/assets/146537873/8f0b4eac-856d-4718-8846-ecce15201ca8)
-7. Make client with clicking client menu, then create a client according to the client router IP and the package the client will use.
+7. Make client with clicking client menu, then create a client according to the client router IP and the package the client will use. When you first create a client, the system will direct you to create a client with the name Root Simple Queue, just change the date and package, then click OK, the root client will not be recorded in the ANMIK application, but will only be recorded in the Simple Queue in MIKROTIK.
+![Screenshot 2024-02-12 at 10 40 48](https://github.com/ahmadafif-codaff/master-img/assets/146537873/7a2eaf24-8abe-46b9-a8ef-cf5371abd672)
 ![anmik-client](https://github.com/ahmadafif-codaff/master-img/assets/146537873/da519282-b4e6-4405-a624-904055b636fc)
 8. Go to the schedule reboot page to make the router reboot on a scheduled basis. This schedule is divided into 2 types, namely day and hour.
 ![anmik-schedule-reboot](https://github.com/ahmadafif-codaff/master-img/assets/146537873/e7704ab1-62fc-4df8-9ce1-3b17cbc8336c)

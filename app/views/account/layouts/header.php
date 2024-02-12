@@ -118,7 +118,7 @@
                 </li>
                 <div class="mt-1 mb-1 border-bottom border-2"></div>
                 <li class="<?php if(PATHURL_ST=='log'){echo "active";} ?>">
-                    <a class="text-decoration-none m-1" style="border-radius: 5px 15px 5px 15px;" href="<?=BASEURL?>/log"><span class="bi-activity"></span> History Log</a>
+                    <a class="text-decoration-none m-1" style="border-radius: 5px 15px 5px 15px;" href="<?=BASEURL?>/log"><span class="bi-activity"></span> History & Log</a>
                 </li>
                 <li class="<?php if(PATHURL_ST=='pengaturan'){echo "active";} ?>">
                     <a class="text-decoration-none m-1" style="border-radius: 5px 15px 5px 15px;" href="<?=BASEURL?>/pengaturan"><span class="bi-gear"></span> Settings</a>

@@ -40,8 +40,10 @@ class Client extends Controller{
         if($this->API->connect(MIKROTIK_HOST, MIKROTIK_USER, MIKROTIK_PASS)){
             $query = $this->API->comm('/queue/simple/print');
             $ra = [];
+            $root_simple_queue = [];
             foreach($query as $r){
                 $address = $r['target'];
+                $root_simple_queue = $address;
                 if(explode('/',$address)[1]!=24){
                     $address = explode('/',$address)[0];
                 }
@@ -142,6 +144,7 @@ class Client extends Controller{
             $data['client'] = $array_search[0];
             $data['page'] = $array_search[1];
             $data['start'] = $array_search[2];
+            $data['root'] = $root_simple_queue;
         }
         $this->API -> disconnect();
 

@@ -97,7 +97,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="">Nama</label>
-                    <?php if(count($data['client'])>0): ?>
+                    <?php if(count($data['root'])>0): ?>
                     <input type="text" name="nama" class="form-control" placeholder="nama" id="nama" value="">
                     <?php else: ?>
                     <input type="text" name="nama" class="form-control" placeholder="nama" id="nama" disabled value="Root Simple Queue">
@@ -113,7 +113,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="">IP Target</label><br>
-                    <?php if(count($data['client'])>0): ?>
+                    <?php if(count($data['root'])>0): ?>
                     <div class="client-target"><input type="hidden" name="" id="target" disabled><img src="<?=BASEURL?>/img/loading.webp" alt="" style="width:60px;"></div>
                     <?php else:
                         $target = MikrotikAPI::all('address');
@@ -128,7 +128,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="">Parent</label><br>
-                    <?php if(count($data['client'])>0): ?>
+                    <?php if(count($data['root'])>0): ?>
                     <div class="client-parent"><input type="hidden" name="" id="parent" disabled><img src="<?=BASEURL?>/img/loading.webp" alt="" style="width:60px;"></div>
                     <?php else: ?>
                     <input type="text" name="parent" class="form-control" placeholder="parent" id="parent" disabled value="none">

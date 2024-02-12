@@ -43,7 +43,7 @@ class Log extends Controller{
         $sort_by = explode('|', Filter::request('time|DESC', 'sort_by'));
         $order = $sort_by[0].' '.$sort_by[1];
 
-        $log = $this->model('AllModel')->dataArr($this->table, '*', "time LIKE '%$search%' OR ip LIKE '%$search%' OR browser LIKE '%$search%' OR so LIKE '%$search%' OR message LIKE '%$search%' OR action LIKE '%$search%' ORDER BY $order LIMIT $start,$show");
+        $log = $this->model('AllModel')->dataArr($this->table, '*', "time LIKE '%$search%' OR ip LIKE '%$search%' OR browser LIKE '%$search%' OR so LIKE '%$search%' OR message LIKE '%$search%' OR action LIKE '%$search%' OR user LIKE '%$search%' ORDER BY $order LIMIT $start,$show");
         $array = [];
         foreach ($log as $r){
             $bg_color = '';
@@ -67,7 +67,7 @@ class Log extends Controller{
             $array[] = json_decode(json_encode($l));
         }
         $data['data'] = $array;
-        $count_all = count($this->model('AllModel')->data($this->table, "time LIKE '%$search%' OR ip LIKE '%$search%' OR browser LIKE '%$search%' OR so LIKE '%$search%' OR message LIKE '%$search%' OR action LIKE '%$search%' ORDER BY time DESC"));
+        $count_all = count($this->model('AllModel')->data($this->table, "time LIKE '%$search%' OR ip LIKE '%$search%' OR browser LIKE '%$search%' OR so LIKE '%$search%' OR message LIKE '%$search%' OR action LIKE '%$search%' OR user LIKE '%$search%' ORDER BY time DESC"));
         $data['count_data'] = count($data['data']) ;
         $data['start'] = $start;
         

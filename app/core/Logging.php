@@ -51,7 +51,7 @@ class Logging{
         return $browser;
     }
     
-    public static function log($action, $status, $message, $user=''){
+    public static function log($action='', $status='', $message='', $user=''){
         $db = new Database;
 
         $ip_log        = self::get_client_ip();
@@ -69,7 +69,7 @@ class Logging{
                 $db->query("INSERT INTO log VALUES(null, '$time', '$ip_log', '$browser_log', '$so_log', '$action', '$status', '$message','$user')");
                 $db->execute();
             }
-        }else{
+        }elseif($action!=''){
             $db->query("INSERT INTO log VALUES(null, '$time', '$ip_log', '$browser_log', '$so_log', '$action', '$status', '$message','$user')");
             $db->execute();
         }
@@ -79,10 +79,14 @@ class Logging{
         $min         = $db->query("SELECT MIN(id_log) AS last FROM log");
         $min         = $db->single();
         $last        = $min->last;
+        $max_record  = 300;
         
-        if(count($log)>300){
-            $delete         = $db->query("DELETE FROM log WHERE id_log='$last'");
-            $delete         = $db->execute();
+        if(count($log)>$max_record){
+            for($x=0; $x<(count($log)-$max_record); $x++){
+                $id_last        = $last+$x; 
+                $delete         = $db->query("DELETE FROM log WHERE id_log='$id_last'");
+                $delete         = $db->execute();
+            }
         }
     }
 }

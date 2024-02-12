@@ -282,14 +282,15 @@ if(!in_array($ip, $ip_acc)){
                                         $API->comm('/queue/simple/reset-counters-all');
                                     }
                                     $API -> disconnect();
-
+                                    
                                     $max_usage = max($cek_normal_usage);
                                     $usg           = $db->query("SELECT * FROM log WHERE YEAR(time)='$year' AND MONTH(time)='$month' AND DAY(time)='$day' AND HOUR(time)='$hour' AND MINUTE(time)='$minutes' AND message='Perangkat dimulai ulang karena kesalahan aturan'");
                                     $usg           = $db->resultSet();
-                                    if($max_usage<$minimal_bites&&count($usg)<1){
+                                    if($max_usage<$minimal_bites&&count($usg)<1&&count($cek_normal_usage)>0){
                                         MikrotikAPI::reboot();
                                     }
                                 }
+                                Logging::log();
 
                                 // max save graph usage
                                 
