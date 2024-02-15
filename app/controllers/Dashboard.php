@@ -66,6 +66,9 @@ class Dashboard extends Controller{
         }else{
             $bg_color   = "bg-danger";
             $status_usage = 100;  
+            if($p->category=='Premium'){
+                $bg_color   = "bg-primary";
+            }
         }
 
         $u = [
