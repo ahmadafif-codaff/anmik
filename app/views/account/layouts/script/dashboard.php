@@ -49,7 +49,7 @@
     }
 
     function load_client(keyword=''){
-        $('.client-list').load(location.href + ' .client-list');
+        $('.client-list').html('<img src="<?=BASEURL?>/img/loading2.gif" alt="loading" class="mt-5" style="width:100%;">');
         setTimeout(function(){
             $('.client-list').load('<?=BASEURL?>/dashboard/client_list?search='+keyword);
         },2000);
