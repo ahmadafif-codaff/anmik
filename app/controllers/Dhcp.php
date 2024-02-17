@@ -37,43 +37,61 @@ class Dhcp extends Controller{
     public function data(){
         $data['title'] = 'DHCP Lease';
 
-        $dhcp = MikrotikAPI::all('dhcp');
-        $array = [];
-        foreach ($dhcp as $r){
-            if($r['dynamic']=='false'){
-                $ip = 'Static';
-            }else{
-                $ip = 'Dynamic';
-            };
+        // $dhcp = MikrotikAPI::all('dhcp');
+        if($this->API->connect(MIKROTIK_HOST, MIKROTIK_USER, MIKROTIK_PASS)){
+            $dhcp = $this->API->comm('/ip/dhcp-server/lease/print');
+            $array = [];
+            foreach ($dhcp as $r){
+                $address = $r['address'].'/32';
+                $queue = $this->API->comm('/queue/simple/print', ["?target"=>"$address"]);
+                $name = [];
+                foreach ($queue as $q){
+                    $name[] = $q['name'];
+                }
+                if(count($name)<1){
+                    $name[] = 'No client data';
+                }
 
-            if($r['status']=='waiting'){
-                $bg_color = 'table-danger';
-            }elseif($ip=='Dynamic'){
-                $bg_color = 'table-warning';
-            }else{
-                $bg_color = '';
-            
+                if($r['dynamic']=='false'){
+                    $ip = 'Static';
+                }else{
+                    $ip = 'Dynamic';
+                };
+
+                $comment_exp = explode(' | ', $r['comment']);
+                if($r['status']=='waiting'){
+                    $bg_color = 'table-danger';
+                    $comment = $comment_exp[0].' <span class="text-danger">Last time connect : '.explode(' -> ', $comment_exp[1])[0]." ($name[0])</span>";
+                }elseif($ip=='Dynamic'){
+                    $bg_color = 'table-warning';
+                    $comment = "($name[0])";
+                }else{
+                    $bg_color = '';
+                    $comment = $comment_exp[0].' <span class="text-primary">Life time : '.Format::count_time(explode(' -> ', $r['comment'])[1], 'up', 'day')." ($name[0])</span>";
+                }
+
+                $d = [
+                    'id' => $r['.id'],
+                    'address' => $r['address'],
+                    'address_num'=>implode(explode('.', implode(explode('/',$r['address'])))),
+                    'mac_address' => $r['mac-address'],
+                    'client_id' => $r['client-id'],
+                    'server' => $r['server'],
+                    'active_address' => $r['active-address'],
+                    'active_mac_address' => $r['active-mac-address'],
+                    'host_name' => $r['host-name'],
+                    'expires_after' => $r['expires-after'],
+                    'status' => $r['status'],
+                    'status_static' => $ip,
+                    'comment' => ';;; &nbsp; '.$ip.' &nbsp; '.$comment,
+                    'name' => "$name[0]",
+                    'bg' => $bg_color,
+                ];
+
+                $array[] = $d;
             }
-
-            $d = [
-                'id' => $r['.id'],
-                'address' => $r['address'],
-                'address_num'=>implode(explode('.', implode(explode('/',$r['address'])))),
-                'mac_address' => $r['mac-address'],
-                'client_id' => $r['client-id'],
-                'server' => $r['server'],
-                'active_address' => $r['active-address'],
-                'active_mac_address' => $r['active-mac-address'],
-                'host_name' => $r['host-name'],
-                'expires_after' => $r['expires-after'],
-                'status' => $r['status'],
-                'status_static' => $ip,
-                'comment' => ';;; &nbsp; '.$ip.' &nbsp; '.$r['comment'],
-                'bg' => $bg_color,
-            ];
-
-            $array[] = $d;
         }
+        $this->API -> disconnect();
 
         $sort_by = explode('|', Filter::request('address_num|ASC', 'sort_by'));
         $array_search = ArrayShow::search($array, Filter::request('address','search_by'), $sort_by[0],  $sort_by[1], 'json');
@@ -86,7 +104,7 @@ class Dhcp extends Controller{
 
     public function static($id){
 
-        $comment = $_POST['value'].' Tanggal '.date('d').' '.date('M').' '.date('Y'). ' '. date('H:i:s');
+        $comment = $_POST['value'].' Tanggal '.date('d').' '.date('M').' '.date('Y'). ' '. date('H:i:s').' | '. DATENOW.' -> '.time();
 
         if($this->API->connect(MIKROTIK_HOST, MIKROTIK_USER, MIKROTIK_PASS)){
             $this->API->comm('/ip/dhcp-server/lease/make-static', array(

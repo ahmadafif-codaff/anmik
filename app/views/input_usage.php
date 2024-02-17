@@ -115,6 +115,22 @@ if(!in_array($ip, $ip_acc)){
                                             $limit1 = ($bandwidth1[0]*1000000).'/'.($bandwidth1[1]*1000000);
                                             $limit2 = ($bandwidth2[0]*1000000).'/'.($bandwidth2[1]*1000000);
                                             $limit3 = ($bandwidth3[0]*1000000).'/'.($bandwidth3[1]*1000000);
+
+                                            $dhcp_addr = explode('/', $target)[0];
+                                            $dhcp = $API->comm('/ip/dhcp-server/lease/print', ["?address"=>"$dhcp_addr"]);
+                                            foreach($dhcp as $d){
+                                                $d_id = $d['.id'];
+                                                $d_status = $d['status'];
+                                                if($d_status=='waiting'){
+                                                    $d_comment = explode(' -> ',$d['comment'])[0].' -> '.time();
+                                                }elseif($d_status=='bound'){
+                                                    $d_comment = explode(' | ',$d['comment'])[0].' | '.DATENOW.' -> '.explode(' -> ',$d['comment'])[1];
+                                                }
+                                                $API->comm('/ip/dhcp-server/lease/set', [
+                                                    ".id"=>"$d_id",
+                                                    "comment"=>"$d_comment"
+                                                ]);
+                                            }
             
                                             $comment = '{"date":"'.$date.'","package":"'.$package.'","price":"'.$price.'","category":"'.$category.'",';
                                             if(in_array($category, ['Kuota', 'Premium'])){
