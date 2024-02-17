@@ -229,7 +229,12 @@ class Client extends Controller{
             $status = 'nonaktif';
             $access = 'Internet Access';
         }
-        Logging::log("$status"."_firewall", 1, "Firewall Address <i>$address</i> di$status"."kan ($access)", $this->user->username);
+
+        if(explode('/', $address)[1]!=24){
+            $address .= '/32';
+        }
+        $name = MikrotikAPI::get('simple', 'target', $address, 'name');
+        Logging::log("$status"."_firewall", 1, "Firewall Address <i>$address</i> ($name) di$status"."kan ($access).", $this->user->username);
     }
 
     public function renew($id){
