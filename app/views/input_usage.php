@@ -125,8 +125,9 @@ if(!in_array($ip, $ip_acc)){
                                             $firewall_dis = [];
                                             foreach($firewall as $f){
                                                 $firewall_dis[] = $f['disabled'];
-                                                if($f['disabled']=='false'){
+                                                if($max_limit!=$limit4&&$f['disabled']=='false'){
                                                     MikrotikAPI::single_set('simple', $id, 'limit', $limit4);
+                                                    Logging::log('limited', 1, "Client <i>$name</i> nonaktif, kecepatan dialihkan ke 1Kbps", '@from_server');
                                                 }
                                             }
                                             
