@@ -135,9 +135,9 @@
                 <?php if(!in_array(PATHURL_ST, ['dashboard','pengaturan'])&&PATHURL_ND!='detail'): ?>
                 <div class="col-md-5 mb-3">
                     <?php if(PATHURL_ST=='dhcp'):?>
-                        <?=Menu::search('no', 'load', ['address','mac_address','server','host_name','status', 'status_static', 'client_name'])?>
+                        <?=Menu::search('no', 'load', ['address','mac_address','server','host_name','status','status_static','client_name'])?>
                     <?php elseif(PATHURL_ST=='firewall'):?>
-                        <?=Menu::search('no', 'load', ['address','firewall_status','client_status','type'])?>
+                        <?=Menu::search('no', 'load', ['address','firewall_status','client_status','type','client_name'])?>
                     <?php elseif(PATHURL_ST=='client'):?>
                         <?=Menu::search('no', 'load',['name','target','date','download','upload','usage','quota','package','category','price','status'])?>
                     <?php else:?>

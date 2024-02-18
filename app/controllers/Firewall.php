@@ -39,41 +39,58 @@ class Firewall extends Controller{
     public function data(){
         $data['title'] = 'Firewall';
 
-        $firewall = MikrotikAPI::all('firewall');
-        $array = [];
-        foreach ($firewall as $r){
-            if($r['disabled']=='false'){
-                $bg_color = 'table-danger';
-                $f_status = 'Activated';
-                $c_status = 'Blocked Access';
-            }else{
-                $bg_color = '';
-                $f_status = 'Nonactivated';
-                $c_status = 'Internet Acces';};
-            if($r['src-address']!=''){
+        // $firewall = MikrotikAPI::all('firewall');
+        if($this->API->connect(MIKROTIK_HOST, MIKROTIK_USER, MIKROTIK_PASS)){
+            $firewall = $this->API->comm('/ip/firewall/filter/print');
+            $array = [];
+            foreach ($firewall as $r){
                 $address = $r['src-address'];
-            }else{
-                $address = '--not identified--';
-            }
-            if(explode('.',$r['src-address'])[3]=='0/24'){
-                $type = 'Network';
-            }elseif($r['src-address']==''){
-                $type = '--not identified--';
-            }else{
-                $type = 'Host';
-            };
+                if(explode('/',$address)[1]!=24){
+                    $address = $r['src-address'].'/32';
+                }
+                $queue = $this->API->comm('/queue/simple/print', ["?target"=>"$address"]);
+                $name = [];
+                foreach ($queue as $q){
+                    $name[] = $q['name'];
+                }
+                if(count($name)<1){
+                    $name[] = 'No client data';
+                }
+                if($r['disabled']=='false'){
+                    $bg_color = 'table-danger';
+                    $f_status = 'Activated';
+                    $c_status = 'Blocked Access';
+                }else{
+                    $bg_color = '';
+                    $f_status = 'Nonactivated';
+                    $c_status = 'Internet Acces';};
+                if($r['src-address']!=''){
+                    $address = $r['src-address'];
+                }else{
+                    $address = '--not identified--';
+                }
+                if(explode('.',$r['src-address'])[3]=='0/24'){
+                    $type = 'Network';
+                }elseif($r['src-address']==''){
+                    $type = '--not identified--';
+                }else{
+                    $type = 'Host';
+                };
 
-            $f = [
-                'id'=>$r['.id'],
-                'address'=>$address,
-                'address_num'=>implode(explode('.', implode(explode('/',$address)))),
-                'firewall_status'=>$f_status,
-                'client_status'=>$c_status,
-                'type'=>$type,
-                'bg'=>$bg_color
-            ];
-            $array[] = $f;
+                $f = [
+                    'id'=>$r['.id'],
+                    'address'=>$address,
+                    'address_num'=>implode(explode('.', implode(explode('/',$address)))),
+                    'firewall_status'=>$f_status,
+                    'client_status'=>$c_status,
+                    'type'=>$type,
+                    'client_name'=>$name[0],
+                    'bg'=>$bg_color
+                ];
+                $array[] = $f;
+            }
         }
+        $this->API -> disconnect();
         
         $sort_by = explode('|', Filter::request('address_num|ASC', 'sort_by'));
         $array_search = ArrayShow::search($array, Filter::request('address','search_by'), $sort_by[0],  $sort_by[1], 'json');
