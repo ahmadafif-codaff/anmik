@@ -115,7 +115,21 @@ if(!in_array($ip, $ip_acc)){
                                             $limit1 = ($bandwidth1[0]*1000000).'/'.($bandwidth1[1]*1000000);
                                             $limit2 = ($bandwidth2[0]*1000000).'/'.($bandwidth2[1]*1000000);
                                             $limit3 = ($bandwidth3[0]*1000000).'/'.($bandwidth3[1]*1000000);
+                                            $limit4 = (1000).'/'.(1000);
 
+                                            $firewall_addr = $target;
+                                            if(explode('/', $target)[1]==32){
+                                                $firewall_addr = explode('/', $target)[0];
+                                            }
+                                            $firewall = $API->comm('/ip/firewall/filter/print', ["?src-address"=>"$firewall_addr"]);
+                                            $firewall_dis = [];
+                                            foreach($firewall as $f){
+                                                $firewall_dis[] = $f['disabled'];
+                                                if($f['disabled']=='false'){
+                                                    MikrotikAPI::single_set('simple', $id, 'limit', $limit4);
+                                                }
+                                            }
+                                            
                                             $dhcp_addr = explode('/', $target)[0];
                                             $dhcp = $API->comm('/ip/dhcp-server/lease/print', ["?address"=>"$dhcp_addr"]);
                                             foreach($dhcp as $d){
@@ -172,7 +186,7 @@ if(!in_array($ip, $ip_acc)){
                                                         if($boost->frequency=='One Time'){
                                                             if(time()>=$start_time){
                                                                 if(time()<=$end_time){
-                                                                    if($max_limit!=$boost_limit){
+                                                                    if($max_limit!=$boost_limit&&$firewall_dis[0]=='true'){
                                                                         MikrotikAPI::single_set('simple', $id, 'limit', $boost_limit);
                                                                         Logging::log('boost_bandwidth', 1, "Kecepatan <i>$name</i> di boost dari bandwidth upload <i>".$up_limit." Mbps dan download ".$down_limit." Mbps</i> menjadi <i>upload ".$boost_bandwidth[0]." Mbps dan download ".$boost_bandwidth[1]." Mbps</i> sampai <i>".$time_schedule[1]."</i>", '@from_server');
                                                                     }
@@ -188,7 +202,7 @@ if(!in_array($ip, $ip_acc)){
                                                             $day_end = explode(' ', $time_schedule[1]);
                                                             if($day>=$day_start[0]&&$day<=$day_end[0]){
                                                                 if($hour>=explode(':', $day_start[1])[0]&&$hour<=explode(':', $day_end[1])[0]){
-                                                                    if($max_limit!=$boost_limit){
+                                                                    if($max_limit!=$boost_limit&&$firewall_dis[0]=='true'){
                                                                         MikrotikAPI::single_set('simple', $id, 'limit', $boost_limit);
                                                                         Logging::log('boost_bandwidth', 1, "Kecepatan <i>$name</i> di boost dari bandwidth upload <i>".$up_limit." Mbps dan download ".$down_limit." Mbps</i> menjadi <i>upload ".$boost_bandwidth[0]." Mbps dan download ".$boost_bandwidth[1]." Mbps</i> sampai pukul <i>".$day_end[1]."</i>", '@from_server');
                                                                     }
@@ -206,7 +220,7 @@ if(!in_array($ip, $ip_acc)){
                                                 }
                                                 $status = $API->comm('/ip/firewall/filter/print', ['?src-address'=>"$target"])[0]['disabled'];
                                                 if($status=='true'){
-                                                    if(count($boost_client)<1){
+                                                    if(count($boost_client)<1&&$firewall_dis[0]=='true'){
                                                         if($max_limit!=$limit1){
                                                             MikrotikAPI::single_set('simple', $id, 'limit', $limit1);
                                                             Logging::log('reset_bandwidth', 1, "Pengembalian kecepatan <i>$name</i> ke kecepatan semula", '@from_server');
@@ -256,7 +270,7 @@ if(!in_array($ip, $ip_acc)){
                                                     }
                                                 }
                                                 
-                                                if(count($boost_client)<1){
+                                                if(count($boost_client)<1&&$firewall_dis[0]=='true'){
                                                     
                                                     if($category=='Premium'){
                                                         if($max_limit!=$limit1){

@@ -233,8 +233,22 @@ class Client extends Controller{
         if(explode('/', $address)[1]!=24){
             $address .= '/32';
         }
-        $name = MikrotikAPI::get('simple', 'target', $address, 'name');
-        Logging::log("$status"."_firewall", 1, "Firewall Address <i>$address</i> ($name) di$status"."kan ($access).", $this->user->username);
+        if($this->API->connect(MIKROTIK_HOST, MIKROTIK_USER, MIKROTIK_PASS)){
+            $queue = $this->API->comm('/queue/simple/print', ['?target'=>"$address"]);
+            foreach($queue as $r){
+                $id_c = $r['.id'];
+                $name = $r['name'];
+                $p = json_decode($r['comment']);
+                $bandwidth = explode('/', explode('|', $p->bandwidth)[0]);
+                $limit = (1000).'/'.(1000);
+                if($status=='nonaktif'){
+                    $limit = ($bandwidth[0]*1000000).'/'.($bandwidth[1]*1000000);
+                }
+                MikrotikAPI::single_set('simple', $id_c, 'limit', $limit);
+                Logging::log("$status"."_firewall", 1, "Firewall Address <i>$address</i> ($name) di$status"."kan ($access).", $this->user->username);
+            }
+        }
+        $this->API->disconnect();
     }
 
     public function renew($id){
