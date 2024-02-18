@@ -84,7 +84,7 @@ class Dhcp extends Controller{
                     'status' => $r['status'],
                     'status_static' => $ip,
                     'comment' => ';;; &nbsp; '.$ip.' &nbsp; '.$comment,
-                    'name' => "$name[0]",
+                    'client_name' => "$name[0]",
                     'bg' => $bg_color,
                 ];
 
