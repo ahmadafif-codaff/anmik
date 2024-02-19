@@ -39,7 +39,7 @@
         <td><?=$no?></td>
         <td><?=$r->data->date?></td>
         <td><?=$r->data->name?></td>
-        <td><?=$r->data->target?></td>
+        <td><a href="http://<?=$r->data->router?>" target="_blank" rel="noopener noreferrer" title="click to open <?=$r->data->name?> router device"><?=$r->data->target?></a></td>
         <td><?=$r->data->download?></td>
         <td><?=$r->data->upload?></td>
         <td><?=$r->data->usage?></td>

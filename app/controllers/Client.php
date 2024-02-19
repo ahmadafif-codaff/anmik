@@ -71,6 +71,13 @@ class Client extends Controller{
                     $price = $p->price;
                     $text_color = '';
 
+                    if(explode('/', $target)[1]=='32'){
+                        $router = explode('/', $target)[0];
+                    }else{
+                        $router1 = explode('.', explode('/', $target)[0]);
+                        $router = $router1[0].'.'.$router1[1].'.'.$router1[2].'.1';
+                    }
+
                     $status = $f['disabled'];
                     $id_f = $f['.id'];
 
@@ -131,7 +138,8 @@ class Client extends Controller{
                         "status"=>$c_status,
                         "id_f"=>$id_f,
                         "bg"=>$bg_color,
-                        "text"=>$text_color
+                        "text"=>$text_color,
+                        "router"=>$router,
                     ];
                     $ra[]= $c_f;
                 }
