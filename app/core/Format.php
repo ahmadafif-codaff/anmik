@@ -127,7 +127,7 @@ class Format{
         }
 
         if($view=='day'){
-            return $day.':'.$hour.':'.$minute.':'.$second;
+            return $day.' '.$hour.':'.$minute.':'.$second;
         }
 
         if($view=='hour'){
