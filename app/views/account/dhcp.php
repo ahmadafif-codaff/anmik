@@ -37,7 +37,7 @@
             </tr>
             <tr class="<?=$r->data->bg?>">
                 <td></td>
-                <td class="font-top"><?=$r->data->address?></td>
+                <td><a href="http://<?=$r->data->address?>" target="_blank" rel="noopener noreferrer" title="click to open router device"><?=$r->data->address?></a></td>
                 <td class="font-top"><?=$r->data->mac_address?></td>
                 <td class="font-top"><?=$r->data->client_id?></td>
                 <td class="font-top"><?=$r->data->server?></td>
