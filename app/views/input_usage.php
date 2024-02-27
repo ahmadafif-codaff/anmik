@@ -318,7 +318,19 @@ if(!in_array($ip, $ip_acc)){
                                     $usg           = $db->query("SELECT * FROM log WHERE YEAR(time)='$year' AND MONTH(time)='$month' AND DAY(time)='$day' AND HOUR(time)='$hour' AND MINUTE(time)='$minutes' AND message='Perangkat dimulai ulang karena kesalahan aturan'");
                                     $usg           = $db->resultSet();
                                     if($max_usage<$minimal_bites&&count($usg)<1&&count($cek_normal_usage)>0){
-                                        MikrotikAPI::reboot();
+                                        if($API->connect(MIKROTIK_HOST, MIKROTIK_USER, MIKROTIK_PASS)){
+                                            $data = $API->comm('/queue/simple/print');
+                                            foreach($data as $r){
+                                                $id = $r['.id'];
+                                                $API->comm('/queue/simple/set', [".id"=>"$id", "disabled"=>"true"]);
+                                            }
+                                            foreach($data as $r){
+                                                $id = $r['.id'];
+                                                $API->comm('/queue/simple/set', [".id"=>"$id", "disabled"=>"false"]);
+                                            }
+                                        }
+                                        $API -> disconnect();
+                                        Logging::log('error_rule', '1', 'Fix data calculation', '@from_server');
                                     }
                                 }
                                 Logging::log();
