@@ -116,7 +116,11 @@ foreach ($data[$graph_frequency] as $r){
                 $(".box-graph").css("left", event.pageX);
             }
         }else{
-            $(".box-graph").css("left", event.pageX);
+            if(event.pageX>=720){
+                $(".box-graph").css("left", event.pageX-200); 
+            }else{
+                $(".box-graph").css("left", event.pageX);
+            }
         }
         // $(".a").html(event.pageX);
     }
