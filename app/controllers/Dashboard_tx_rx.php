@@ -36,10 +36,17 @@ class Dashboard_tx_rx extends Controller{
             $upload = $rate[0]; 
         }
 
-        $download = Format::bytes($download, 'rate');
-        $upload = Format::bytes($upload, 'rate');
-
-        echo '<span class="text-danger bi-download"></span> rx '.$download.'&nbsp; <span class="text-primary bi-upload"></span> tx '.$upload;
+        if(Filter::request('', 'view')=='true'){
+            $this->view('account/dashboard/traffic');
+        }else{
+            if(Filter::request('','data')=='json'){
+                echo '{"download":"'.explode(' ',$download)[0].'","upload":"'.explode(' ',$upload)[0].'"}';
+            }else{
+                $download = Format::bytes($download, 'rate');
+                $upload = Format::bytes($upload, 'rate');
+                echo '<span class="text-danger bi-download"></span> rx '.$download.'&nbsp; <span class="text-primary bi-upload"></span> tx '.$upload;
+            }
+        }
     }
 }
 

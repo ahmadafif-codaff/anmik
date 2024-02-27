@@ -33,7 +33,7 @@
                         </div>
                         <div class="bg-secondary rounded-3" style="width: 100%; height: 5px;"></div>
                         <div class="status_bandwith <?=$r->data->bg?> rounded-3" style="width:<?=$r->data->status_usage?>%; height: 5px; margin-top: -5px;"></div>
-                        <div class="pointer" onclick="day_stat('<?=$r->data->target?>', '<?=$data['date']?>', '<?=$r->data->name?>')">Usage Statistic</div>
+                        <a href="?address=<?=$r->data->target?>" class="pointer">Usage Statistic</a>
                     </div>
                 </div>
             </div>
