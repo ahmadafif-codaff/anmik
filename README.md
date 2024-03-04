@@ -46,13 +46,20 @@ If the web server has been installed correctly, then :
 
 3. On the ANMIK web server, click the ip/dhcp-lease menu and all connected client routers will be displayed. (Please note that the connected client router must be connected to the Mikrotik router in router hotspot mode and by getting the IP dynamically. This is used to find out which routers are on and off).
 
-![anmik-dhcp-lease](https://github.com/ahmadafif-codaff/master-img/assets/146537873/498113f1-a71e-4971-a661-0d0874310487)
+![anmik-dhcp-lease](https://github.com/ahmadafif-codaff/master-img/assets/146537873/f12c635e-399c-4241-a9b0-a9014ff59bb0)
 
 4. Still on the ip/dhcp page, if youre router client get IP dynamically (marked with a yellow background), click button check, then status will be changed to static ip (marked with a white background). This is used to prevent the IP address from being used by other client routers.
+
+![anmik-static-dhcp-lease](https://github.com/ahmadafif-codaff/master-img/assets/146537873/b3e91a16-9855-4e3a-8dd4-74e830f4892a)
 
 5. Then move to the firewall page by clicking ip/firewall menu, click generate firewall button to quickly create the firewall. This is used to block internet access for unauthorized IP addresses.
 
 ![anmik-firewall](https://github.com/ahmadafif-codaff/master-img/assets/146537873/dc4ade8b-7491-44f5-b0e4-f5a393ac4a52)
+
+Update on firewall :
+You can see the client using the IP in the firewall list
+ 
+![anmik-firewall-client-name](https://github.com/ahmadafif-codaff/master-img/assets/146537873/9145c1cb-247b-4529-b0b5-fa2937c546fc)
 
 6. Open the package page and make a package according to what will be used.
 
@@ -62,7 +69,11 @@ If the web server has been installed correctly, then :
 
 ![Screenshot 2024-02-12 at 10 40 48](https://github.com/ahmadafif-codaff/master-img/assets/146537873/7a2eaf24-8abe-46b9-a8ef-cf5371abd672)
 
-![anmik-client](https://github.com/ahmadafif-codaff/master-img/assets/146537873/da519282-b4e6-4405-a624-904055b636fc)
+![anmik-client](https://github.com/ahmadafif-codaff/master-img/assets/146537873/ea4871c0-8a98-492a-8184-d8dcca907532)
+
+If remote management on your client router is active, then you can do it remotely by simply clicking on the IP address that is in the client list or dhcp lease list
+
+![anmik-client-router](https://github.com/ahmadafif-codaff/master-img/assets/146537873/5aa4f75c-ece7-4154-879a-6783b54ddce7)
 
 8. Go to the schedule reboot page to make the router reboot on a scheduled basis. This schedule is divided into 2 types, namely day and hour.
 
