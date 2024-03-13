@@ -16,8 +16,6 @@
 ?>
 <script>
     $(document).ready(function(){
-        // var address = $('#address').val();
-        // $('.traffic-monitor').load('<?=BASEURL?>/dashboard_tx_rx?view=true&address='+address);
         $('.card-usage').load('<?=BASEURL?>/dashboard/card_usage');
         $('.card-client').load('<?=BASEURL?>/dashboard/card_client');
         dashboard_load('<?=$data['address']?>','<?=$data['date']?>');
@@ -39,11 +37,12 @@
     function graph_load(duration, address, date){
         $('.graph-'+duration).html('<div class="d-flex justify-content-center align-items-center w-100 h-100"><img src="<?=BASEURL?>/img/loading2.gif" alt="loading" style="width:50%;"></div>');
         $('.total-'+duration).load(location.href + ' .total-'+duration);
-        $('traffic-monitor').html('<div class="d-flex justify-content-center align-items-center w-100 h-100"><img src="<?=BASEURL?>/img/loading2.gif" alt="loading" style="width:50%;"></div>');
         setTimeout(function(){
             $('.graph-'+duration).load('<?=BASEURL?>/dashboard/graph_'+duration+'?address='+address+'&date='+date);
             $('.total-'+duration).load('<?=BASEURL?>/dashboard/total_'+duration+'?address='+address+'&date='+date);
-            $('.traffic-monitor').load('<?=BASEURL?>/dashboard_tx_rx?view=true&address='+address);
+            if(date=='<?=date('Y-m-d')?>'&&duration!='daily'){
+                $('.traffic-monitor').load('<?=BASEURL?>/dashboard_tx_rx?view=true&address='+address);
+            }
         },2000);
     }
 
