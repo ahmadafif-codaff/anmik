@@ -23,8 +23,8 @@ class Dashboard_card_resource extends Controller{
         if($user_session>time()){
             $resource = MikrotikAPI::all('resource');
             foreach($resource as $r){
-                $memory_width = (($r['total-memory']/1000000)*3)-(($r['free-memory']/1000000)*3);
-                $hdd_width = (($r['total-hdd-space']/1000000)*6.25)-(($r['free-hdd-space']/1000000)*6);
+                $memory_width = 100-((($r['free-memory']/($r['total-memory']))*100));
+                $hdd_width = 100-((($r['free-hdd-space']/($r['total-hdd-space']))*100));
                 
                 echo '<div class="bg-secondary mb-1" style="font-size: smaller; height:20px;"></div>';
                 echo '<div class="bg-secondary mb-1" style="font-size: smaller; height:20px;"></div>';
