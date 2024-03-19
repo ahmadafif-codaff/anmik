@@ -80,11 +80,11 @@ if(!in_array($ip, $ip_acc)){
                                 $cek = $db->resultSet();
 
                                 if(count($cek)<1){
-                                    $cek_normal_usage = [];
-                                    $minimal_bites = 1000;
 
                                     $API = new RouterosAPI();
                                     if($API->connect(MIKROTIK_HOST, MIKROTIK_USER, MIKROTIK_PASS)){
+                                        $cek_normal_usage = [];
+                                        $minimal_bites = 1000;
                                         $data = $API->comm('/queue/simple/print');
                                         foreach($data as $r){
                                             $id = $r['.id'];
@@ -311,14 +311,11 @@ if(!in_array($ip, $ip_acc)){
                                             }
                                         }
                                         $API->comm('/queue/simple/reset-counters-all');
-                                    }
-                                    $API -> disconnect();
                                     
-                                    $max_usage = max($cek_normal_usage);
-                                    $usg           = $db->query("SELECT * FROM log WHERE YEAR(time)='$year' AND MONTH(time)='$month' AND DAY(time)='$day' AND HOUR(time)='$hour' AND MINUTE(time)='$minutes' AND message='Perangkat dimulai ulang karena kesalahan aturan'");
-                                    $usg           = $db->resultSet();
-                                    if($max_usage<$minimal_bites&&count($usg)<1&&count($cek_normal_usage)>0){
-                                        if($API->connect(MIKROTIK_HOST, MIKROTIK_USER, MIKROTIK_PASS)){
+                                        $max_usage = max($cek_normal_usage);
+                                        $usg           = $db->query("SELECT * FROM log WHERE YEAR(time)='$year' AND MONTH(time)='$month' AND DAY(time)='$day' AND HOUR(time)='$hour' AND MINUTE(time)='$minutes' AND message='Perangkat dimulai ulang karena kesalahan aturan'");
+                                        $usg           = $db->resultSet();
+                                        if($max_usage<$minimal_bites&&count($usg)<1&&count($cek_normal_usage)>0){
                                             $data = $API->comm('/queue/simple/print');
                                             foreach($data as $r){
                                                 $id = $r['.id'];
@@ -328,10 +325,10 @@ if(!in_array($ip, $ip_acc)){
                                                 $id = $r['.id'];
                                                 $API->comm('/queue/simple/set', [".id"=>"$id", "disabled"=>"false"]);
                                             }
+                                            // Logging::log('error_rule', '1', 'Fix data calculation', '@from_server');
                                         }
-                                        $API -> disconnect();
-                                        Logging::log('error_rule', '1', 'Fix data calculation', '@from_server');
                                     }
+                                    $API -> disconnect();
                                 }
                                 Logging::log();
 
