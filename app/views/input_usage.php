@@ -240,10 +240,15 @@ if(!in_array($ip, $ip_acc)){
                                                             $this->model('AllModel')->insert("usages","null, null, '0', '0', '$id'");
                                                         }
                                                     }
+                                                    if($renew>0){
+                                                        $quota1 *= ($renew+1);
+                                                    }
                                                     if(($usage/1000000000)>=$quota1){
+                                                        $comment = '{"date":"'.$date.'","package":"'.$package.'","price":"'.$price.'","category":"'.$category.'","bandwidth":"'.$bandwidth1[0].'/'.$bandwidth1[1].'","quota":"'.$quota1.'","input_date":"'.DATENOW.'","usage":"0"}';
+                                                        $API->comm('/queue/simple/set', [".id"=>"$id", "comment"=>"$comment"]);
                                                         $id_f = $API->comm('/ip/firewall/filter/print', ['?src-address'=>"$target"])[0]['.id'];
                                                         MikrotikAPI::single_set('firewall', $id_f, 'disabled', 'false');
-                                                        Logging::log('nonactivated', 1, "Pemakaian <i>$name</i> sudah melampaui batas kuota, internet dinonaktifkan", '@from_server');
+                                                        Logging::log('nonactivated', 1, "Pemakaian <i>$name</i> sebesar ".Format::bytes($usage).", telah melampaui batasan kuota (".Format::bytes($quota1*1000000000)."). Internet dinonaktifkan", '@from_server');
                                                     }
                                                 }
                                             }else{
@@ -259,7 +264,7 @@ if(!in_array($ip, $ip_acc)){
                                                         
                                                         $comment .= '"input_date":"'.DATENOW.'","usage":"'.$usage.'"}';
                                                     }else{
-                                                        $comment .= '"renew":"0","input_date":"'.DATENOW.'","usage":"0"}';
+                                                        $comment .= '"input_date":"'.DATENOW.'","usage":"0"}';
                                                     }
 
                                                     if($upload>$minimal_bites || $download>$minimal_bites){
@@ -282,8 +287,8 @@ if(!in_array($ip, $ip_acc)){
                     
                                                     if($category=='Regular'){
                                                         if($renew>0){
-                                                            $quota1 *= $renew+1;
-                                                            $quota2 *= $renew+1;
+                                                            $quota1 *= ($renew+1);
+                                                            $quota2 *= ($renew+1);
                                                         }
                                                         if(($usage/1000000000)<$quota1){
                                                             if($max_limit!=$limit1){
@@ -295,13 +300,13 @@ if(!in_array($ip, $ip_acc)){
                                                             if(($usage/1000000000)>=$quota2){
                                                                 if($max_limit!=$limit3){
                                                                     MikrotikAPI::single_set('simple', $id, 'limit', $limit3);
-                                                                    Logging::log('fup2', 1, "Pemakaian <i>$name</i> melewati batas kedua, kecepatan dialihkan ke kecepatan ketiga", '@from_server');
+                                                                    Logging::log('fup2', 1, "Pemakaian <i>$name</i> sebesar ".Format::bytes($usage).", telah melampaui batas kuota kedua (".Format::bytes($quota2*1000000000)."). Kecepatan dialihkan ke kecepatan ketiga", '@from_server');
                                                                 }
                                                             }
                                                             else{
                                                                 if($max_limit!=$limit2){
                                                                     MikrotikAPI::single_set('simple', $id, 'limit', $limit2);
-                                                                    Logging::log('fup1', 1, "Pemakaian <i>$name</i> melewati batas pertama, kecepatan dialihkan ke kecepatan kedua", '@from_server');
+                                                                    Logging::log('fup1', 1, "Pemakaian <i>$name</i> sebesar ".Format::bytes($usage).", telah melampaui batas kuota pertama (".Format::bytes($quota1*1000000000)."). Kecepatan dialihkan ke kecepatan kedua", '@from_server');
                                                                 }
                                                             }
                                                         }

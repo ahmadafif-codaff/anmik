@@ -226,19 +226,21 @@ class Dashboard extends Controller{
                 foreach($firewall as $f){
                     $p = json_decode($r['comment']);
 
-                    if($p->renew>0){
-                        $p->quota2 *= ($p->renew+1);
-                    }
-
                     $quota = explode('|', $p->quota);
 
-                    $status_usage = substr($p->usage/1000000000,0,5)/$quota[1]*100;
                     if($p->category=='Kuota'){
-                        $status_usage = substr($p->usage/1000000000,0,5)/$quota[0]*100;
+                        $quota2 = $quota[0];
                         $btn = 'btn-danger';
                     }else{
+                        $quota2 = $quota[1];
                         $btn = 'btn-success';
                     }
+
+                    if($p->renew>0){
+                        $quota2 *= ($p->renew+1); 
+                    }
+
+                    $status_usage = substr($p->usage/1000000000,0,5)/$quota2*100;
 
                     $card = 'bg-primary';
                     if($f['disabled']=='false'){

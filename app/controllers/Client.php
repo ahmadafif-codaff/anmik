@@ -104,7 +104,10 @@ class Client extends Controller{
                             }else{
                                 $quota = Format::bytes($quota*1000000000);
                             }
-                        }else{
+                        }elseif($category=='Kuota'){
+                            if($renew>0){
+                                $quota *= ($renew+1);
+                            }
                             $quota = Format::bytes($quota*1000000000);
                         }
                     }
@@ -263,14 +266,9 @@ class Client extends Controller{
         $data = MikrotikAPI::get('simple', '.id', $id);
         foreach($data as $r){
             $p = json_decode($r['comment']);
-            if($p->category=='Kuota'){
-                $comment = '{"date":"'.$p->date.'","package":"'.$p->package.'","price":"'.$p->price.'","category":"'.$p->category.'","bandwidth":"'.$p->bandwidth.'","bandwidth2":"'.$p->bandwidth2.'","bandwidth3":"'.$p->bandwidth3.'","quota":"'.$p->quota.'","quota2":"'.$p->quota2.'","renew":"0","input_date":"'.$p->input_date.'","usage":"0"}';
-                MikrotikAPI::single_set('simple', $id, 'comment', $comment);
-                Logging::log("renew_client", 1, "Client <i>".$r['name']."</i> dengan Address <i>".$r['target']."</i> di <i>Renew<i/>", $this->user->username);
-            }
-            if($p->category=='Regular'){
+            if($p->category=='Regular'||$p->category=='Kuota'){
                 $renew = $p->renew+1;
-                $comment = '{"date":"'.$p->date.'","package":"'.$p->package.'","price":"'.$p->price.'","category":"'.$p->category.'","bandwidth":"'.$p->bandwidth.'","bandwidth2":"'.$p->bandwidth2.'","bandwidth3":"'.$p->bandwidth3.'","quota":"'.$p->quota.'","quota2":"'.$p->quota2.'","renew":"'.$renew.'","input_date":"'.$p->input_date.'","usage":"'.$p->usage.'"}';
+                $comment = '{"date":"'.$p->date.'","package":"'.$p->package.'","price":"'.$p->price.'","category":"'.$p->category.'","bandwidth":"'.$p->bandwidth.'","quota":"'.$p->quota.'","renew":"'.$renew.'","input_date":"'.$p->input_date.'","usage":"'.$p->usage.'"}';
                 MikrotikAPI::single_set('simple', $id, 'comment', $comment);
                 Logging::log("renew_client", 1, "Client <i>".$r['name']."</i> dengan Address <i>".$r['target']."</i> di <i>Renew<i/>", $this->user->username);
             }
