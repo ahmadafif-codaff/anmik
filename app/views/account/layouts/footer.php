@@ -15,7 +15,7 @@
 */
 ?>
             <br>
-            <p class="text-secondary">© 2023 Codaff Project. All right reserved. ANMIK version 2.0</p>
+            <p class="text-secondary">© 2023 - <?=date('Y')?> Codaff Project. All right reserved. ANMIK version <?=VERSION?></p>
             <br>
 
         </div>

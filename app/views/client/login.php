@@ -21,7 +21,8 @@
             <a  class="d-flex justify-content-center mt-3 mb-3">
                 <img src="<?=BASEURL?>/img/logo.png" class="align-items-center" style="width:70px;">
             </a>
-            <h4 class="text-secondary text-center">Sign in to continue</h4>
+            <h4 class="text-secondary text-center">Welcome Customers</h4>
+            <h6 class="text-secondary text-center">Sign in to continue</h6>
             <div class="p-3">
                 <div class="form-floating text-dark bg-white border border-primary border-top-0 border-end-0 border-start-0 mb-2" style="font-size: medium;">
                     <input type="text" class="form-control" id="username" placeholder="Username" style="border: 0;">

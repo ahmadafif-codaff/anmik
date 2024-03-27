@@ -92,4 +92,18 @@ If remote management on your client router is active, then you can do it remotel
 ![anmik-log](https://github.com/ahmadafif-codaff/master-img/assets/146537873/4cf8f2c3-c5ab-4a5c-953c-950b3c91a140)
 
 
+# Update
 
+2.1.0 Your customers can see the selected packages and can see their quota usage.
+
+1. Open the web browser then follow links http://localhost/anmik/login_client ("anmik" change to directory where you place master file). You will be directed to the login page.
+
+2. To log in to the client, use the client name as the username and the target IP as the password.
+
+![anmik-username-password](https://github.com/ahmadafif-codaff/master-img/assets/146537873/74c2ead6-1b34-4d16-80c6-6975e99665d9)
+
+![anmik-client-login](https://github.com/ahmadafif-codaff/master-img/assets/146537873/1fb43fa7-6eca-4f36-930d-2d2d6871cc3d)
+
+3. Then, if login correctly you will be directed to the client dashboard page.
+
+![anmik-dashboard-client](https://github.com/ahmadafif-codaff/master-img/assets/146537873/38e34355-a73b-425c-a52b-b47afbc88743)

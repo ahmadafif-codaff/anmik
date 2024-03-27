@@ -55,7 +55,16 @@ class Dashboard extends Controller{
         $p = json_decode(MikrotikAPI::get('simple', 'parent', 'none', 'comment'));
         $total_usage = explode(' ', Format::bytes($p->usage));
 
-        $status_usage = (($p->usage/1000000000)/($p->quota2))*100;
+        $quota = explode('|', $p->quota);
+        $quota1 = $quota[1];
+        if($p->category=='Kuota'){
+            $quota1 = $quota[0];
+        }
+        if($p->renew>0){
+            $quota1 *= ($p->renew+1); 
+        }
+
+        $status_usage = (($p->usage/1000000000)/($quota1))*100;
 
         if($status_usage<=50){
             $bg_color   = "bg-primary";
@@ -65,10 +74,11 @@ class Dashboard extends Controller{
             $bg_color   = "bg-danger";
         }else{
             $bg_color   = "bg-danger";
+        }
+        
+        if($p->category=='Premium'){
             $status_usage = 100;  
-            if($p->category=='Premium'){
-                $bg_color   = "bg-primary";
-            }
+            $bg_color   = "bg-primary";
         }
 
         $u = [
