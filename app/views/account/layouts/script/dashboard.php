@@ -30,7 +30,7 @@
         }
         if(load=='all'){
             graph_load('yearly', address, date);
-            load_client($('#search').val());
+            load_client($('#search').val().split(' ').join('%20'));
         }
     }
 
@@ -47,7 +47,7 @@
     }
 
     function load_data(){
-        var keyword = $('#search').val();
+        var keyword = $('#search').val().split(' ').join('%20');
         load_client(keyword);
     }
 

@@ -23,7 +23,7 @@
     }
     function load_data(page=''){
         var row = $('#row').val();
-        var keyword = $('#search').val();
+        var keyword = $('#search').val().split(' ').join('%20');
         var searchBy = $('#search_by').val();
         var sortBy = $('#sort_by').val();
         $('.data').html('<div class="d-flex col-md-12 justify-content-center"><img src="<?=BASEURL?>/img/loading2.gif" alt="loading" style="width:50%;"></div>');
