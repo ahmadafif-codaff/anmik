@@ -76,8 +76,15 @@ if(!in_array($ip, $ip_acc)){
 
                                 $db = new Database;
                                 
-                                $cek = $db->query("SELECT * FROM usages WHERE YEAR(time)='$year' AND MONTH(time)='$month' AND DAY(time)='$day' AND HOUR(time)='$hour' AND MINUTE(time)='$minutes'");
-                                $cek = $db->resultSet();
+                                // $cek = $db->query("SELECT * FROM usages WHERE YEAR(time)='$year' AND MONTH(time)='$month' AND DAY(time)='$day' AND HOUR(time)='$hour' AND MINUTE(time)='$minutes'");
+                                // $cek = $db->resultSet();
+                                
+                                $cek = [];
+                                foreach(Datafile::get('db/usage.json') as $r){
+                                    if(substr($r->time,0,16)==date('Y-m-d H:i')){
+                                        $cek[] = $r;
+                                    }
+                                }
 
                                 if(count($cek)<1){
 
@@ -235,9 +242,11 @@ if(!in_array($ip, $ip_acc)){
                                                         if($upload>$minimal_bites || $download>$minimal_bites){
                                                             $API->comm('/queue/simple/set', [".id"=>"$id", "comment"=>"$comment"]);
                                                             $this->model('AllModel')->insert("usages","null, null, '$upload', '$download', '$id'");
+                                                            Datafile::usage($upload, $download, $id);
                                                             echo '<h5 class="text-success">Success input client '.$name.'!</h5><br>';
                                                         }else{
                                                             $this->model('AllModel')->insert("usages","null, null, '0', '0', '$id'");
+                                                            Datafile::usage(0, 0, $id);
                                                         }
                                                     }
                                                     if($renew>0){
@@ -270,9 +279,11 @@ if(!in_array($ip, $ip_acc)){
                                                     if($upload>$minimal_bites || $download>$minimal_bites){
                                                         $API->comm('/queue/simple/set', [".id"=>"$id", "comment"=>"$comment"]);
                                                         $this->model('AllModel')->insert("usages","null, null, '$upload', '$download', '$id'");
+                                                        Datafile::usage($upload, $download, $id);
                                                         echo '<h5 class="text-success">Success input client '.$name.'!</h5><br>';
                                                     }else{
                                                         $this->model('AllModel')->insert("usages","null, null, '0', '0', '$id'");
+                                                        Datafile::usage(0, 0, $id);
                                                     }
                                                 }
                                                 

@@ -14,7 +14,7 @@
     ******************************************
 */
 
-define('VERSION', '2.1.1');
+define('VERSION', '2.2.0');
 
 require_once 'core/App.php';
 require_once 'core/Controller.php';
@@ -29,6 +29,7 @@ require_once 'core/Logging.php';
 require_once 'core/Format.php';
 require_once 'core/Menu.php';
 require_once 'core/ArrayShow.php';
+require_once 'core/DataFile.php';
 
 require_once 'config/config.php';
 
