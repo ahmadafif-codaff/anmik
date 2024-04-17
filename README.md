@@ -33,7 +33,7 @@ For instalation follow this :
    git clone https://github.com/ahmadafif-codaff/anmik.git
    ```
 2. Edit file example.config.php in "app/config" folder, fill in the DB_HOST, DB_USER, DB_PASSWORD according to your DBMS, and fill in MIKROTIK_HOST, MIKROTIK_USER, MIKROTIK_PASSWORD according to your Mikrotik Router, then save the change and rename file example.config.php to config.php.
-3. Make database "anmik" then import database anmik.sql from "db" folder.
+3. Make database "anmik" then import database anmik.sql from "db" folder. If you are using a Linux server, change "DB Folder" to full access with command "chmod 777 -R db" (This is used for the purpose of creating, modifying and checking data in the "usage.json" file in the "db" folder).
 4. Open the web browser, then follow links http://localhost/anmik/autoinput ("anmik" change to directory where you place master file). Every time your PC restart run this link (make the link is autorun is recomended).
 
 # How to use?
