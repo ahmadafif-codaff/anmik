@@ -78,6 +78,7 @@ class Dashboard_client extends Controller{
             $bg_color   = "bg-danger";
         }else{
             $bg_color   = "bg-danger";
+            $status_usage = 100;
         }
         
         if($this->category=='Premium'){
