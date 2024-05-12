@@ -49,7 +49,7 @@ if(!in_array($ip, $ip_acc)){
                             }
                             $live_time = date($d.'H:i:s');
                             if($live_time==$re->time){
-                                Logging::log('reboot_mikrotik', 1, "Mulai ulang perangkat terjadwal", '@from_server');
+                                Logging::log('reboot_mikrotik', 1, "Mulai ulang perangkat terjadwal", 'from_server');
                                 MikrotikAPI::reboot();
                             }
                         }
@@ -134,7 +134,7 @@ if(!in_array($ip, $ip_acc)){
                                                 $firewall_dis[] = $f['disabled'];
                                                 if($max_limit!=$limit4&&$f['disabled']=='false'){
                                                     MikrotikAPI::single_set('simple', $id, 'limit', $limit4);
-                                                    Logging::log('limited', 1, "Client <i>$name</i> nonaktif, kecepatan dialihkan ke 1Kbps", '@from_server');
+                                                    Logging::log('limited', 1, "Client <i>$name</i> nonaktif, kecepatan dialihkan ke 1Kbps", 'from_server');
                                                 }
                                             }
                                             
@@ -196,13 +196,13 @@ if(!in_array($ip, $ip_acc)){
                                                                 if(time()<=$end_time){
                                                                     if($max_limit!=$boost_limit&&$firewall_dis[0]=='true'){
                                                                         MikrotikAPI::single_set('simple', $id, 'limit', $boost_limit);
-                                                                        Logging::log('boost_bandwidth', 1, "Kecepatan <i>$name</i> di boost dari bandwidth upload <i>".$up_limit." Mbps dan download ".$down_limit." Mbps</i> menjadi <i>upload ".$boost_bandwidth[0]." Mbps dan download ".$boost_bandwidth[1]." Mbps</i> sampai <i>".$time_schedule[1]."</i>", '@from_server');
+                                                                        Logging::log('boost_bandwidth', 1, "Kecepatan <i>$name</i> di boost dari bandwidth upload <i>".$up_limit." Mbps dan download ".$down_limit." Mbps</i> menjadi <i>upload ".$boost_bandwidth[0]." Mbps dan download ".$boost_bandwidth[1]." Mbps</i> sampai <i>".$time_schedule[1]."</i>", 'from_server');
                                                                     }
                                                                     $boost_client[] = $id_client;
                                                                 }else{
                                                                     $db->query("DELETE FROM schedule WHERE id_schedule='$id_schedule'");
                                                                     $db->execute();
-                                                                    Logging::log('expired_boost', 1, "Waktu boost <i>$name</i> selesai, data schedule boost <i>$name</i> bandwidth <i>upload ".$boost_bandwidth[0]." Mbps dan download ".$boost_bandwidth[1]." Mbps dihapus", '@from_server');
+                                                                    Logging::log('expired_boost', 1, "Waktu boost <i>$name</i> selesai, data schedule boost <i>$name</i> bandwidth <i>upload ".$boost_bandwidth[0]." Mbps dan download ".$boost_bandwidth[1]." Mbps dihapus", 'from_server');
                                                                 }
                                                             }
                                                         }elseif($boost->frequency=='Repeat'){
@@ -212,7 +212,7 @@ if(!in_array($ip, $ip_acc)){
                                                                 if($hour>=explode(':', $day_start[1])[0]&&$hour<=explode(':', $day_end[1])[0]){
                                                                     if($max_limit!=$boost_limit&&$firewall_dis[0]=='true'){
                                                                         MikrotikAPI::single_set('simple', $id, 'limit', $boost_limit);
-                                                                        Logging::log('boost_bandwidth', 1, "Kecepatan <i>$name</i> di boost dari bandwidth upload <i>".$up_limit." Mbps dan download ".$down_limit." Mbps</i> menjadi <i>upload ".$boost_bandwidth[0]." Mbps dan download ".$boost_bandwidth[1]." Mbps</i> sampai pukul <i>".$day_end[1]."</i>", '@from_server');
+                                                                        Logging::log('boost_bandwidth', 1, "Kecepatan <i>$name</i> di boost dari bandwidth upload <i>".$up_limit." Mbps dan download ".$down_limit." Mbps</i> menjadi <i>upload ".$boost_bandwidth[0]." Mbps dan download ".$boost_bandwidth[1]." Mbps</i> sampai pukul <i>".$day_end[1]."</i>", 'from_server');
                                                                     }
                                                                     $boost_client[] = $id_client;
                                                                 }
@@ -231,7 +231,7 @@ if(!in_array($ip, $ip_acc)){
                                                     if(count($boost_client)<1&&$firewall_dis[0]=='true'){
                                                         if($max_limit!=$limit1){
                                                             MikrotikAPI::single_set('simple', $id, 'limit', $limit1);
-                                                            Logging::log('reset_bandwidth', 1, "Pengembalian kecepatan <i>$name</i> ke kecepatan semula", '@from_server');
+                                                            Logging::log('reset_bandwidth', 1, "Pengembalian kecepatan <i>$name</i> ke kecepatan semula", 'from_server');
                                                         }
                                                     }
                                                     if((substr($input_date,0,16)!=substr($time,0,16))){
@@ -257,7 +257,7 @@ if(!in_array($ip, $ip_acc)){
                                                         $API->comm('/queue/simple/set', [".id"=>"$id", "comment"=>"$comment"]);
                                                         $id_f = $API->comm('/ip/firewall/filter/print', ['?src-address'=>"$target"])[0]['.id'];
                                                         MikrotikAPI::single_set('firewall', $id_f, 'disabled', 'false');
-                                                        Logging::log('nonactivated', 1, "Pemakaian <i>$name</i> sebesar ".Format::bytes($usage).", telah melampaui batasan kuota (".Format::bytes($quota1*1000000000)."). Internet dinonaktifkan", '@from_server');
+                                                        Logging::log('nonactivated', 1, "Pemakaian <i>$name</i> sebesar ".Format::bytes($usage).", telah melampaui batasan kuota (".Format::bytes($quota1*1000000000)."). Internet dinonaktifkan", 'from_server');
                                                     }
                                                 }
                                             }else{
@@ -292,7 +292,7 @@ if(!in_array($ip, $ip_acc)){
                                                     if($category=='Premium'){
                                                         if($max_limit!=$limit1){
                                                             MikrotikAPI::single_set('simple', $id, 'limit', $limit1);
-                                                            Logging::log('reset_bandwidth', 1, "Pengembalian kecepatan <i>$name</i> ke kecepatan semula", '@from_server');
+                                                            Logging::log('reset_bandwidth', 1, "Pengembalian kecepatan <i>$name</i> ke kecepatan semula", 'from_server');
                                                         }
                                                     }
                     
@@ -304,20 +304,20 @@ if(!in_array($ip, $ip_acc)){
                                                         if(($usage/1000000000)<$quota1){
                                                             if($max_limit!=$limit1){
                                                                 MikrotikAPI::single_set('simple', $id, 'limit', $limit1);
-                                                                Logging::log('reset_bandwidth', 1, "Pengembalian kecepatan <i>$name</i> ke kecepatan awal", '@from_server');
+                                                                Logging::log('reset_bandwidth', 1, "Pengembalian kecepatan <i>$name</i> ke kecepatan awal", 'from_server');
                                                             }
                                                         }
                                                         elseif(($usage/1000000000)>=$quota1){
                                                             if(($usage/1000000000)>=$quota2){
                                                                 if($max_limit!=$limit3){
                                                                     MikrotikAPI::single_set('simple', $id, 'limit', $limit3);
-                                                                    Logging::log('fup2', 1, "Pemakaian <i>$name</i> sebesar ".Format::bytes($usage).", telah melampaui batas kuota kedua (".Format::bytes($quota2*1000000000)."). Kecepatan dialihkan ke kecepatan ketiga", '@from_server');
+                                                                    Logging::log('fup2', 1, "Pemakaian <i>$name</i> sebesar ".Format::bytes($usage).", telah melampaui batas kuota kedua (".Format::bytes($quota2*1000000000)."). Kecepatan dialihkan ke kecepatan ketiga", 'from_server');
                                                                 }
                                                             }
                                                             else{
                                                                 if($max_limit!=$limit2){
                                                                     MikrotikAPI::single_set('simple', $id, 'limit', $limit2);
-                                                                    Logging::log('fup1', 1, "Pemakaian <i>$name</i> sebesar ".Format::bytes($usage).", telah melampaui batas kuota pertama (".Format::bytes($quota1*1000000000)."). Kecepatan dialihkan ke kecepatan kedua", '@from_server');
+                                                                    Logging::log('fup1', 1, "Pemakaian <i>$name</i> sebesar ".Format::bytes($usage).", telah melampaui batas kuota pertama (".Format::bytes($quota1*1000000000)."). Kecepatan dialihkan ke kecepatan kedua", 'from_server');
                                                                 }
                                                             }
                                                         }
@@ -341,7 +341,7 @@ if(!in_array($ip, $ip_acc)){
                                                 $id = $r['.id'];
                                                 $API->comm('/queue/simple/set', [".id"=>"$id", "disabled"=>"false"]);
                                             }
-                                            // Logging::log('error_rule', '1', 'Fix data calculation', '@from_server');
+                                            // Logging::log('error_rule', '1', 'Fix data calculation', 'from_server');
                                         }
                                     }
                                     $API -> disconnect();

@@ -70,7 +70,7 @@ class Logging{
                 $db->execute();
             }
         }elseif($action!=''){
-            $db->query("INSERT INTO log VALUES(null, '$time', '$ip_log', '$browser_log', '$so_log', '$action', '$status', '$message','$user')");
+            $db->query("INSERT INTO log VALUES(null, '$time', '$ip_log', '$browser_log', '$so_log', '$action', '$status', '$message','@$user')");
             $db->execute();
         }
 

@@ -46,11 +46,11 @@ class Login extends Controller{
 
                 setcookie("token", $token, $session, $this->authentication()->path);
 
-                Logging::log('login', 1, "User <i>$username</i> berhasil login", "@guest");
+                Logging::log('login', 1, "User <i>$username</i> berhasil login", "guest");
             // header("location:".BASEURL."/account/dashboard");
                 echo "success";
             }else{
-                Logging::log('login', 0, "User <i>$username</i> gagal login", "@guest");
+                Logging::log('login', 0, "User <i>$username</i> gagal login", "guest");
                 // header("location:".BASEURL."/login/gagal");
             }
 
