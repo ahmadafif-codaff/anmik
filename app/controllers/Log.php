@@ -47,13 +47,13 @@ class Log extends Controller{
         $array = [];
         foreach ($log as $r){
             $bg_color = '';
-            if($r['status']==0||$r['action']=='nonactivated'){
+            if($r['status']==0||in_array($r['action'], ['nonactivated', 'disconnected'])){
                 $bg_color = 'table-danger';
             }
             if(in_array($r['action'],['reboot_mikrotik','fup1','fup2'])){
                 $bg_color = 'table-warning';
             }
-            if(in_array($r['action'],['reset_bandwidth','renew_client'])){
+            if(in_array($r['action'],['reset_bandwidth','renew_client','connected'])){
                 $bg_color = 'table-success';
             }
             if($r['action']=='expired_boost'){

@@ -143,10 +143,22 @@ if(!in_array($ip, $ip_acc)){
                                             foreach($dhcp as $d){
                                                 $d_id = $d['.id'];
                                                 $d_status = $d['status'];
+                                                $d_address = $d['address'];
+                                                $d_hostname = $d['host-name'];
+                                                if($d_hostname==''){
+                                                    $d_hostname = 'device is not detected';
+                                                }
                                                 if($d_status=='waiting'){
-                                                    $d_comment = explode(' -> ',$d['comment'])[0].' -> '.time();
-                                                }elseif($d_status=='bound'){
-                                                    $d_comment = explode(' | ',$d['comment'])[0].' | '.DATENOW.' -> '.explode(' -> ',$d['comment'])[1];
+                                                    if(explode('->',explode(' | ',$d['comment'])[1])[2]!=0){
+                                                        Logging::log('disconnected', 1, "Client <i>$name</i> ($d_hostname) dengan alamat ip <i>$d_address</i> terputus dari jaringan", 'from_server');
+                                                    }
+                                                    $d_comment = explode(' -> ',$d['comment'])[0].' -> '.time().'->0';
+                                                }
+                                                if($d_status=='bound'){
+                                                    if(explode('->',explode(' | ',$d['comment'])[1])[2]!=1){
+                                                        Logging::log('connected', 1, "Client <i>$name</i> ($d_hostname) dengan alamat ip <i>$d_address</i> terhubung ke jaringan", 'from_server');
+                                                    }
+                                                    $d_comment = explode(' | ',$d['comment'])[0].' | '.DATENOW.' -> '.explode(' -> ',$d['comment'])[1].'->1';
                                                 }
                                                 $API->comm('/ip/dhcp-server/lease/set', [
                                                     ".id"=>"$d_id",
