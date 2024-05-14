@@ -37,11 +37,14 @@ class Login_client extends Controller{
                 $_SESSION['username']=$username;
                 $_SESSION['address']=$password;
                 echo 'success';
+                Logging::log('login_client', 1, "User <i>$username</i> berhasil login", "guest");
             }else{
                 echo 'error_name';
+                Logging::log('login_client', 0, "User <i>$username</i> gagal login", "guest");
             }
         }else{
             echo 'error_add';
+            Logging::log('login_client', 0, "User <i>$username</i> gagal login", "guest");
         }
     }
 }
