@@ -145,44 +145,78 @@ class Menu{
         $paginate[] = '<div class="pt-4">';
         if(!in_array($on_page, ['', 1])){
             $paginate[] .= '<'.$a.click($a,$on_page-1).' href="'.BASEURL.'/'.PATHURL_FULL.'?page='.($on_page-1);
-            if($search!=''){
-                $paginate[] .= '&search='.$search;
-            }
-            if($row=='yes'){
-                $paginate[] .= '&row='.$rows;
-            }
+            $paginate[] .= self::page_include($search, $row, $rows);
             $paginate[] .= '" class="btn btn-primary border"><span class="bi-chevron-left"></span></'.$a.'>';
         }else{
             $paginate[] .= '<'.$a.' class="btn btn-secondary border"><span class="bi-chevron-left"></span></'.$a.'>';
         }
-        for($i=1; $i<=$page; $i++){
-            if($on_page!=$i){
-                $paginate[] .= '<'.$a.click($a,$i).' href="'.BASEURL.'/'.PATHURL_FULL.'?page='.$i;
-                if($search!=''){
-                    $paginate[] .= '&search='.$search;
-                }
-                if($row=='yes'){
-                    $paginate[] .= '&row='.$rows;
-                }
-                $paginate[] .= '" class="btn btn-light border">'.$i.'</'.$a.'>';
+        if($page<7){
+            $paginate[] .= self::page_number(1, $page, $on_page, $a, $search, $row, $rows);
+        }else{
+            if($on_page<7){
+                $paginate[] .= self::page_number(1, self::page_last_number($on_page, $page), $on_page, $a, $search, $row, $rows);
+                $paginate[] .= self::page_point_last_number($page, $on_page, $a, $search, $row, $rows);
             }else{
-                $paginate[] .= '<'.$a.' class="btn btn-secondary border">'.$i.'</'.$a.'>';
+                $paginate[] .= self::page_number(1, 2, $on_page, $a, $search, $row, $rows);
+                $paginate[] .= '<'.$a.' class="btn btn-light border">...</'.$a.'>';
+                $paginate[] .= self::page_number($on_page-3, $on_page, $on_page, $a, $search, $row, $rows);
+                $paginate[] .= self::page_number($on_page+1, self::page_last_number($on_page, $page), $on_page, $a, $search, $row, $rows);
+                $paginate[] .= self::page_point_last_number($page, $on_page, $a, $search, $row, $rows);
             }
-        } 
+        }
         if($page!=1 && $on_page!=$page && $on_page<$page){ 
             $paginate[] .= '<'.$a.click($a,$on_page+1).' href="'.BASEURL.'/'.PATHURL_FULL.'?page='.($on_page+1);
-            if($search!=''){
-                $paginate[] .= '&search='.$search;
-            }
-            if($row=='yes'){
-                $paginate[] .= '&row='.$rows;
-            }
+            $paginate[] .= self::page_include($search, $row, $rows);
             $paginate[] .= '" class="btn btn-primary border"><span class="bi-chevron-right"></span></'.$a.'>';
         }else{
             $paginate[] .= '<'.$a.' class="btn btn-secondary border"><span class="bi-chevron-right"></span></'.$a.'>';
         }
         $paginate[] = '</div>';
 
+        return implode($paginate);
+    }
+
+    private static function page_number($start, $count, $on_page, $a, $search, $row, $rows){
+        $paginate = [];
+        for($i=$start; $i<=$count; $i++){
+            if($on_page!=$i){
+                $paginate[] .= '<'.$a.click($a,$i).' href="'.BASEURL.'/'.PATHURL_FULL.'?page='.$i;
+                $paginate[] .= self::page_include($search, $row, $rows);
+                $paginate[] .= '" class="btn btn-light border">'.$i.'</'.$a.'>';
+            }else{
+                $paginate[] .= '<'.$a.' class="btn btn-secondary border">'.$i.'</'.$a.'>';
+            }
+        }
+        return implode($paginate);
+    }
+
+    private static function page_last_number($on_page, $page){
+        if($on_page+3>=$page-2){
+            $x = $page;
+        }else{
+            $x = $on_page+3;
+        }
+        return $x;
+    }
+
+    private static function page_point_last_number($page, $on_page, $a, $search, $row, $rows){
+        $paginate = [];
+        if($on_page+3<$page-2){
+            $paginate[] .= '<'.$a.' class="btn btn-light border">...</'.$a.'>';
+            $paginate[] .= self::page_number($page-1, $page, $on_page, $a, $search, $row, $rows);
+        }
+
+        return implode($paginate);
+    }
+
+    private static function page_include($search, $row, $rows){
+        $paginate = [];
+        if($search!=''){
+            $paginate[] .= '&search='.$search;
+        }
+        if($row=='yes'){
+            $paginate[] .= '&row='.$rows;
+        }
         return implode($paginate);
     }
 }
