@@ -14,7 +14,7 @@
     ******************************************
 */
 
-define('VERSION', '2.2.4');
+define('VERSION', '2.2.5');
 
 require_once 'core/App.php';
 require_once 'core/Controller.php';
