@@ -14,8 +14,6 @@
     ******************************************
 */
 
-define('VERSION', '2.2.6');
-
 require_once 'core/App.php';
 require_once 'core/Controller.php';
 require_once 'core/Database.php';

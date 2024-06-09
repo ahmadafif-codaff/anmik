@@ -63,6 +63,9 @@ class Pengaturan extends Controller{
             if($username!=$data->kategori){
                 $edit .= "username <i>$username</i>";
             }
+            if($username!=$data->username){
+                $this->model('AllModel')->update('login', "username='$username'", "username='$data->username'");
+            }
             Logging::log('edit_profil', 1, "Profil <i>$data->nama</i> username <i>$data->username</i> diubah $edit", $this->user->username);
             Flasher::success('ubah', $this->table);
         }else{

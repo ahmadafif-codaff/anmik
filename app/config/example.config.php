@@ -27,6 +27,8 @@ define('PATHURL_EXPL', explode('/',PATHURL_FULL));
 define('PATHURL_ST', PATHURL_EXPL[0]);
 define('PATHURL_ND', PATHURL_EXPL[1]);
 
+define('VERSION', file_get_contents('http://'.$_SERVER["HTTP_HOST"].BASEURL.'/VERSION'));
+
 // Mikrotik API
 define('MIKROTIK_HOST', '');
 define('MIKROTIK_USER', '');
