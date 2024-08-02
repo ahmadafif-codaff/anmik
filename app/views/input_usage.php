@@ -265,7 +265,7 @@ if(!in_array($ip, $ip_acc)){
                                                         $quota1 *= ($renew+1);
                                                     }
                                                     if(($usage/1000000000)>=$quota1){
-                                                        $comment = '{"date":"'.$date.'","package":"'.$package.'","price":"'.$price.'","category":"'.$category.'","bandwidth":"'.$bandwidth1[0].'/'.$bandwidth1[1].'","quota":"'.$quota1.'","input_date":"'.DATENOW.'","usage":"0"}';
+                                                        $comment = '{"date":"'.$date.'","package":"'.$package.'","price":"'.$price.'","category":"'.$category.'","bandwidth":"'.$bandwidth1[0].'/'.$bandwidth1[1].'","quota":"'.$quota[0].'","input_date":"'.DATENOW.'","usage":"0"}';
                                                         $API->comm('/queue/simple/set', [".id"=>"$id", "comment"=>"$comment"]);
                                                         $id_f = $API->comm('/ip/firewall/filter/print', ['?src-address'=>"$target"])[0]['.id'];
                                                         MikrotikAPI::single_set('firewall', $id_f, 'disabled', 'false');
