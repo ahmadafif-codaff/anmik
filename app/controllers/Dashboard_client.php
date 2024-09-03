@@ -22,6 +22,11 @@ class Dashboard_client extends Controller{
     private $usage;
     private $quota;
     private $bandwidth;
+    private $id_target;
+    private $date;
+    private $year;
+    private $month;
+    private $day;
 
     public function __construct()
     {
@@ -33,6 +38,11 @@ class Dashboard_client extends Controller{
         $this->usage = $this->paket->usage;
         $this->quota = explode('|', $this->paket->quota);
         $this->bandwidth = explode('|', $this->paket->bandwidth);
+        $this->id_target = MikrotikAPI::get('simple', 'target', $this->address, '.id');
+        $this->date = Filter::request("",'date');
+        $this->year = explode('-',$this->date)[0];
+        $this->month = explode('-',$this->date)[1];
+        $this->day = explode('-',$this->date)[2];
         if(count(MikrotikAPI::get('simple', 'target', $this->address))>0){
             if(MikrotikAPI::get('simple', 'name', $this->username, 'target')==$_SESSION['address']){
                 // echo 'success';
@@ -51,6 +61,7 @@ class Dashboard_client extends Controller{
         $data['title'] = "Dashboard Client";
         $data['name'] = $this->username;
         $data['address'] = $this->address;
+        $data['date'] = $this->date;
 
         $this->view('client/layouts/header', $data);
         $this->view('client/dashboard', $data);
@@ -136,6 +147,70 @@ class Dashboard_client extends Controller{
         session_unset();
         session_destroy();
         echo '<script>window.location.href="'.BASEURL.'/login_client"</script>';
+    }
+
+    public function graph_monthly(){
+        // Graph Monthly
+        $year = $this->year;
+        $month = $this->month;
+        
+        $id = $this->id_target;
+        $this->graph('monthly', 'SUM(download) AS graph1st, SUM(upload) AS graph2nd, YEAR(time) AS year, MONTH(time) AS month, DAY(time) AS day, DAYNAME(time) AS dayname, MONTHNAME(time) AS monthname',"id_client='$id' AND MONTH(time)='$month' AND YEAR(time)='$year' GROUP BY DAY(time) ORDER BY time ASC");
+    }
+
+    private function graph($frequency, $select, $where){
+        $data['address']= $this->address;
+        $data['date'] = $this->date;
+        $data['year'] = $this->year;
+        $data['month'] = $this->month;
+        $data['day'] = $this->day;
+
+        $graph_frequency = 'graph_'.$frequency;
+        $max_upload_frequency = 'max_upload_'.$frequency;
+        $max_download_frequency = 'max_download_'.$frequency;
+        $max_frequency = 'max_'.$frequency;
+
+        $upload_as_max = 'SUM(upload) AS max';
+        $download_as_max = 'SUM(download) AS max';
+
+        if($frequency=='daily'){
+            $upload_as_max = 'upload AS max';
+            $download_as_max = 'download AS max';
+        }
+
+        $data[$graph_frequency] = $this->model('AllModel')->dataArr('usages',$select, $where);
+        $data[$max_upload_frequency] = max($this->model('AllModel')->dataArr('usages',$upload_as_max, $where));
+        $data[$max_download_frequency] = max($this->model('AllModel')->dataArr('usages',$download_as_max, $where));
+        $data[$max_frequency] = max([$data[$max_upload_frequency],$data[$max_download_frequency]]);
+        
+        $this->view('account/dashboard/graph', $data);
+    }
+    
+    public function total_monthly(){
+        // Total Monthly
+        $year = $this->year;
+        $month = $this->month;
+        $id = $this->id_target;
+
+        $this->data_total("id_client='$id' AND MONTH(time)='$month' AND YEAR(time)='$year'");
+    }
+
+    private function data_total($where){
+        $total = $this->model('AllModel')->dataArr('usages','SUM(download) AS download, SUM(upload) AS upload', "$where");
+
+        $download = $total[0]['download']; 
+        $upload = $total[0]['upload']; 
+
+        $this->total($download, $upload);
+    }
+
+    private function total($download, $upload){
+        $total = $download+$upload;
+        $download = Format::bytes($download, 'byte');
+        $upload = Format::bytes($upload, 'byte');
+        $total = Format::bytes($total, 'byte');
+
+        echo '<span class="bg-danger rounded" style="height:10px;width:10px;"></span>&nbsp;Downloads '.$download.'&nbsp;&nbsp;&nbsp;<span class="bg-primary-dark rounded" style="height:10px;width:10px;"></span>&nbsp;Uploads '.$upload.'&nbsp;&nbsp;&nbsp;<span class="btn-bg-gradient-purple rounded" style="height:10px;width:10px;"></span>&nbsp;Total '.$total;
     }
 }
 

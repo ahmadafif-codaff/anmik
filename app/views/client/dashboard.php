@@ -50,4 +50,25 @@
     </div>
 
 </div>
+
+    
+<div class="d-flex fullwide mb-1 pt-3 justify-content-between rounded-2">
+    <div class="col-md-12 load-graph">
+        <script src="<?=BASEURL?>/js/ajax-jquery-3.4.1/jquery.min.js"></script>
+    
+        <div class="bg-white d-flex flex-column shadow col-md-12 radius-3 mt-2 mb-4 rounded-1" style="height: 350px;">
+            <div class="bg-light text-dark border p-2 d-flex justify-content-between rounded-1"><div class=""><span class="bi-graph-up-arrow"></span> Pemakaian <span class="name"><?=$data['name']?></span> <span class="month">Bulan Ini</span></div><div><input class="bg-light border-0" type="month" name="month" id="month" value="<?=substr($data['date'],0,7)?>" onchange="month_stat()"></div></div>
+            <div class="d-flex align-items-end p-3 graph-monthly" style="height:100%; width:100%; overflow-y:scroll;">
+                <div class="d-flex justify-content-center align-items-center w-100 h-100">
+                    <img src="<?=BASEURL?>/img/loading2.gif" alt="loading" style="width:50%;">
+                </div>
+            </div>
+            <div class="bg-light text-dark border p-2 rounded-1">
+                <div class="d-flex align-items-center total-monthly">
+                    <span class="bg-danger rounded" style="height:10px;width:10px;"></span>&nbsp;Downloads &nbsp;&nbsp;&nbsp;<span class="bg-primary-dark rounded" style="height:10px;width:10px;"></span>&nbsp;Uploads &nbsp;&nbsp;&nbsp;<span class="btn-bg-gradient-purple rounded" style="height:10px;width:10px;"></span>&nbsp;Total
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     

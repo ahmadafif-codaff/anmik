@@ -34,7 +34,49 @@
             $('.card-usage').load('<?=BASEURL.'/dashboard_client/card_usage'?>');
             $('.card-package').load('<?=BASEURL.'/dashboard_client/card_client'?>');
             $('.card-renew').load('<?=BASEURL.'/dashboard_client/card_renew'?>');
+            dashboard_load('<?=$data['address']?>','<?=$data['date']?>');
         })
+
+        function dashboard_load(address, date, load='all'){
+            if(load=='all'||load=='day'){
+                graph_load('daily', address, date);
+            }
+            if(load=='all'||load=='month'){
+                graph_load('monthly', address, date);
+            }
+            if(load=='all'){
+                graph_load('yearly', address, date);
+            }
+        }
+
+        function graph_load(duration, address, date){
+            $('.graph-'+duration).html('<div class="d-flex justify-content-center align-items-center w-100 h-100"><img src="<?=BASEURL?>/img/loading2.gif" alt="loading" style="width:50%;"></div>');
+            $('.total-'+duration).load(location.href + ' .total-'+duration);
+            setTimeout(function(){
+                $('.graph-'+duration).load('<?=BASEURL?>/dashboard_client/graph_'+duration+'?address='+address+'&date='+date);
+                $('.total-'+duration).load('<?=BASEURL?>/dashboard_client/total_'+duration+'?address='+address+'&date='+date);
+            },2000);
+        }
+
+        function month_stat(){
+            var date = $('#month').val(); 
+            var address = $('#address').val();
+            var load = 'month';
+            
+            var dateSplit = date.split('-');
+            var year = dateSplit[0];
+            var month = dateSplit[1];
+
+            var monthname = 'Tahun '+year+' Bulan '+month;
+
+            if(date=='<?=date('Y-m')?>'){
+                var monthname = 'Bulan Ini';
+            }
+
+            $('.month').html(monthname);
+            dashboard_load(address,date,load);
+        }
+        
         function logout() { 
             Swal.fire({       
                 type: 'warning',                   
