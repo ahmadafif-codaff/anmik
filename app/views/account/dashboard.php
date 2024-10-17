@@ -117,9 +117,11 @@
                 </div>
             </div>
         </div>
-        <div class="bg-light text-dark border mt-2 p-2 d-flex justify-content-between align-items-center rounded-1"><div class=""><span class="bi-activity"></span> Client</div><span class="col-md-10" style="height: 30px; margin-top:-5px;"><?=Menu::search('no', 'load')?></span></div>
-        <div class="bg-white ps-2 pe-2 overflow-auto client-list" style="height: 450px;">
-        <img src="<?=BASEURL?>/img/loading2.gif" alt="loading" class="mt-5" style="width:100%;">
+        <div class="bg-white d-flex flex-column shadow col-md-12 radius-3 rounded-1 mb-4 pb-1">
+            <div class="bg-light text-dark border p-2 d-flex justify-content-between align-items-center rounded-1"><div class=""><span class="bi-activity"></span> Client</div><span class="col-md-10" style="height: 30px; margin-top:-5px;"><?=Menu::search('no', 'load')?></span></div>
+            <div class="ps-2 pe-2 overflow-auto client-list" style="height: 450px;">
+                <img src="<?=BASEURL?>/img/loading2.gif" alt="loading" class="mt-5" style="width:100%;">
+            </div>
         </div>
     </div>
 </div>
