@@ -67,7 +67,7 @@ class Menu{
             $text_option = 'Number of rows ';
         }
 
-        $data = '<'.$form.' class="form-group bg-secondary rounded text-light me-1 mb-3" action="" style="width: fit-content; height:fit-content;">
+        $data = '<'.$form.' class="form-group bg-secondary rounded text-light me-1 mb-3 ps-2 d-flex align-items-center" action="" style="width: fit-content; height:fit-content;">
                 <span class="bi bi-eye"></span> <select class="btn btn-sm btn-secondary text-start" name="row" id="row" onchange="'.$onchange.'">';
                 
         $data .= $select.'
@@ -113,7 +113,7 @@ class Menu{
             $option = implode($by);
         }
 
-        $data = '<'.$form.' class="form-group bg-secondary rounded text-light me-1 mb-3" action="" style="width: fit-content; height:fit-content;">
+        $data = '<'.$form.' class="form-group bg-secondary rounded text-light me-1 mb-3 ps-2 d-flex align-items-center" action="" style="width: fit-content; height:fit-content;">
                 <span class="bi bi-sort-down"></span> <select class="btn btn-sm btn-secondary text-start" name="sort_by" id="sort_by" onchange="'.$onchange.'">';
                 
         $data .= $select.$option.'

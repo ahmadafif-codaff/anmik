@@ -52,10 +52,17 @@
     }
 
     function load_client(keyword=''){
+        var sortBy = $('#sort_by').val();
         $('.client-list').html('<img src="<?=BASEURL?>/img/loading2.gif" alt="loading" class="mt-5" style="width:100%;">');
         setTimeout(function(){
-            $('.client-list').load('<?=BASEURL?>/dashboard/client_list?search='+keyword);
+            $('.client-list').load('<?=BASEURL?>/dashboard/client_list?search='+keyword+'&sort_by='+sortBy);
         },2000);
+    }
+
+    function speed_display(){
+        var speed = $('#speed_display').val();
+        document.cookie = "speed_display="+speed+";expires=Thu, 18 Dec <?=date('Y')+1?> 12:00:00 UTC";
+        load_data();
     }
 
     function day_stat(address='', date='', name=''){

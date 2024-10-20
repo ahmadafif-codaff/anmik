@@ -237,6 +237,11 @@ class Dashboard extends Controller{
                     $p = json_decode($r['comment']);
 
                     $quota = explode('|', $p->quota);
+                    $limit = Format::bytes(explode('/',$r['limit-at'])[1], 'rate');
+
+                    if((explode(' ',$limit)[0])!=explode('/',explode('|', $p->bandwidth)[0])[1]){
+                        $limit .= ' / '.number_format(explode('/',explode('|', $p->bandwidth)[0])[1]).' Mbps';
+                    }
 
                     if($p->category=='Kuota'){
                         $quota2 = $quota[0];
@@ -282,6 +287,8 @@ class Dashboard extends Controller{
                         "bg"=>$bg_color,
                         "btn"=>$btn,
                         "card"=>$card,
+                        "limit"=>$limit,
+                        "speed_id"=>implode(explode('.',implode(explode('/', $r['target'])))),
                     ];
                     $ra[] = $c_f;
                 }
@@ -289,7 +296,8 @@ class Dashboard extends Controller{
 
             $array = $ra;
 
-            $array_search = ArrayShow::search($array, 'name', 'usage_real','desc', 'json');
+            $sort_by = explode('|', Filter::request('usage_real|DESC', 'sort_by'));
+            $array_search = ArrayShow::search($array, 'name', $sort_by[0],$sort_by[1], 'json');
             $data['client'] = $array_search[0];
         }
         $API -> disconnect();
