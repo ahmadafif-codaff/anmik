@@ -119,15 +119,19 @@
         </div>
         <div class="bg-white d-flex flex-column shadow col-md-12 radius-3 rounded-1 mb-4 pb-1">
             <div class="bg-light text-dark border p-2 d-flex justify-content-between align-items-center rounded-1"><div class=""><span class="bi-activity"></span> Client</div><span class="col-md-10" style="height: 30px; margin-top:-5px;"><?=Menu::search('no', 'load')?></span></div>
-            <div class="border ps-2 pt-2 d-flex flex-wrap justify-content-between">
-                <div class="input-group align-items-center border rounded ps-2" style="height: fit-content; width: fit-content;">
-                    <span class="bi-download"></span>
-                    <select class="btn btn-sm" name="" id="speed_display" onchange="speed_display()">
-                        <option value="hide">Hide Speed</option>
-                        <option <?php if($_COOKIE['speed_display']=='show'){echo 'selected';}?> value="show">Show Speed</option>
-                    </select>
+            <div class="border d-flex flex-wrap justify-content-between">
+                <div class="ps-2 pt-2">
+                    <div class="input-group align-items-center border rounded ps-2" style="height: fit-content; width: fit-content;">
+                        <span class="bi-download"></span>
+                        <select class="btn btn-sm" name="" id="speed_display" onchange="speed_display()">
+                            <option value="hide">Hide Speed</option>
+                            <option <?php if($_COOKIE['speed_display']=='show'){echo 'selected';}?> value="show">Show Speed</option>
+                        </select>
+                    </div>
                 </div>
-                <?=Menu::sort('load', ['usage_real','name'], 'DESC')?>
+                <div class="ps-2 pt-2 pe-1">
+                    <?=Menu::sort('load', ['usage_real','name'], 'DESC')?>
+                </div>
             </div>
             <div class="ps-2 pe-2 overflow-auto client-list" style="height: 450px;">
                 <img src="<?=BASEURL?>/img/loading2.gif" alt="loading" class="mt-5" style="width:100%;">

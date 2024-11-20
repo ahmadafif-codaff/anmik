@@ -38,6 +38,6 @@
                 <button class="btn w-100 btn-secondary rounded-5" type="submit" id="login" name="login">Login</button>
             </div>
         </div>
-        <p class="text-secondary mt-2" style="margin-bottom: -10px;">© 2023 - <?=date('Y')?> Codaff Project. All right reserved. ANMIK version <?=VERSION?></p>
+        <p class="text-secondary mt-2" style="margin-bottom: -10px;">© 2023 - <?=date('Y')?> <a href="https://codaffproject.my.id" target="_blank" rel="Codaff Project">Codaff Project</a>. All right reserved. <a href="https://codaffproject.my.id/anmik" target="_blank" rel="Codaff Project ANMIK">ANMIK</a> version <?=VERSION?></p>
     </div>
 </div>

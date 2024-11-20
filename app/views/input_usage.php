@@ -145,20 +145,30 @@ if(!in_array($ip, $ip_acc)){
                                                 $d_status = $d['status'];
                                                 $d_address = $d['address'];
                                                 $d_hostname = $d['host-name'];
+                                                $jcom = json_decode($d['comment']);
                                                 if($d_hostname==''){
                                                     $d_hostname = 'device is not detected';
                                                 }
                                                 if($d_status=='waiting'){
-                                                    if(explode('->',explode(' | ',$d['comment'])[1])[2]!=0){
+                                                    if($jcom->status!=0){
                                                         Logging::log('disconnected', 1, "Client <i>$name</i> ($d_hostname) dengan alamat ip <i>$d_address</i> terputus dari jaringan", 'from_server');
                                                     }
-                                                    $d_comment = explode(' -> ',$d['comment'])[0].' -> '.time().' -> 0';
+                                                    $d_comment = '{"lastconnect":"'.$jcom->lastconnect.'","lifetime":"'.time().'","status":"0","host":"'.$jcom->host.'"}';
                                                 }
                                                 if($d_status=='bound'){
-                                                    if(explode('->',explode(' | ',$d['comment'])[1])[2]!=1){
+                                                    if($jcom->status!=1){
                                                         Logging::log('connected', 1, "Client <i>$name</i> ($d_hostname) dengan alamat ip <i>$d_address</i> terhubung ke jaringan", 'from_server');
                                                     }
-                                                    $d_comment = explode(' | ',$d['comment'])[0].' | '.DATENOW.' -> '.explode(' -> ',$d['comment'])[1].' -> 1';
+                                                    $d_comment = '{"lastconnect":"'.DATENOW.'","lifetime":"'.$jcom->lifetime.'","status":"1","host":"'.$jcom->host.'"}';
+                                                }
+                                                if($d_status=='offered'){
+                                                    if($jcom->status!=2){
+                                                        Logging::log('connection_error', 1, "Client <i>$name</i> ($d_hostname) dengan alamat ip <i>$d_address</i> gagal terhubung ke jaringan", 'from_server');
+                                                    }
+                                                    $d_comment = '{"lastconnect":"'.$jcom->lastconnect.'","lifetime":"'.time().'","status":"2","host":"'.$jcom->host.'"}';
+                                                }
+                                                if($d['dynamic']!='false'){
+                                                    $d_comment = '{"lastconnect":"'.DATENOW.'","lifetime":"'.time().'","status":"1","host":"'.$d_hostname.'"}';
                                                 }
                                                 $API->comm('/ip/dhcp-server/lease/set', [
                                                     ".id"=>"$d_id",

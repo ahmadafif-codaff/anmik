@@ -47,7 +47,7 @@ class Log extends Controller{
         $array = [];
         foreach ($log as $r){
             $bg_color = '';
-            if($r['status']==0||in_array($r['action'], ['nonactivated', 'disconnected'])){
+            if($r['status']==0||in_array($r['action'], ['nonactivated', 'disconnected', 'connection_error'])){
                 $bg_color = 'table-danger';
             }
             if(in_array($r['action'],['reboot_mikrotik','fup1','fup2'])){

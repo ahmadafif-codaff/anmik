@@ -45,11 +45,10 @@ class Dhcp extends Controller{
                 $address = $r['address'].'/32';
                 $queue = $this->API->comm('/queue/simple/print', ["?target"=>"$address"]);
                 $name = [];
+                $jcom = json_decode($r['comment']);
+
                 foreach ($queue as $q){
                     $name[] = $q['name'];
-                }
-                if(count($name)<1){
-                    $name[] = 'No client data';
                 }
 
                 if($r['dynamic']=='false'){
@@ -57,18 +56,26 @@ class Dhcp extends Controller{
                 }else{
                     $ip = 'Dynamic';
                 };
+                
+                if(count($name)<1){
+                    $name[] = 'No client data';
+                    $lifetime = '- -:-:-';
+                    $lastconnect = '- -:-:-';
+                }else{
+                    $lifetime = Format::count_time($jcom->lifetime, 'up', 'day');
+                    $lastconnect = $jcom->lastconnect;
+                }
 
-                $comment_exp = explode(' | ', $r['comment']);
-                if($r['status']=='waiting'){
+                $comment = ' <span class="text-primary">Life time : '.$lifetime;
+                if($r['status']=='waiting'||$r['status']=='offered'){
                     $bg_color = 'table-danger';
-                    $comment = $comment_exp[0].' <span class="text-danger">Last time connect : '.explode(' -> ', $comment_exp[1])[0]." ($name[0])</span>";
+                    $comment = ' <span class="text-danger">Last time connect : '.$lastconnect;
                 }elseif($ip=='Dynamic'){
                     $bg_color = 'table-warning';
-                    $comment = "($name[0])";
                 }else{
                     $bg_color = '';
-                    $comment = $comment_exp[0].' <span class="text-primary">Life time : '.Format::count_time(explode(' -> ', $r['comment'])[1], 'up', 'day')." ($name[0])</span>";
                 }
+                $comment .= " ($name[0]) $jcom->host</span>";
 
                 $d = [
                     'id' => $r['.id'],
@@ -104,7 +111,7 @@ class Dhcp extends Controller{
 
     public function static($id){
 
-        $comment = $_POST['value'].' Tanggal '.date('d').' '.date('M').' '.date('Y'). ' '. date('H:i:s').' | '. DATENOW.' -> '.time();
+        $comment = '{"lastconnect":"'.DATENOW.'","lifetime":"'.time().'","status":"1","host":"'.$_POST['value'].'"}';
 
         if($this->API->connect(MIKROTIK_HOST, MIKROTIK_USER, MIKROTIK_PASS)){
             $this->API->comm('/ip/dhcp-server/lease/make-static', array(
