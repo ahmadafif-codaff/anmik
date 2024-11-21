@@ -80,7 +80,7 @@ class Firewall extends Controller{
                 $f = [
                     'id'=>$r['.id'],
                     'address'=>$address,
-                    'address_num'=>implode(explode('.', implode(explode('/',$address)))),
+                    'address_num'=>Format::addr_num($address),
                     'firewall_status'=>$f_status,
                     'client_status'=>$c_status,
                     'type'=>$type,

@@ -192,7 +192,7 @@
                     <?php elseif(PATHURL_ST=='firewall'):?>
                         <?=Menu::sort('load', ['address_num','firewall_status', 'client_status', 'type'])?>
                     <?php elseif(PATHURL_ST=='client'):?>
-                        <?=Menu::sort('load',['name','target','date','download_num','upload_num','usage_sub','quota_sub','package','category','price_sub','status'])?>
+                        <?=Menu::sort('load',['name','target_num','date','download_num','upload_num','usage_sub','quota_sub','package','category','price_sub','status'])?>
                     <?php elseif(PATHURL_ST=='schedule'):?>
                         <?=Menu::sort('load',['id_schedule','frequency'])?>
                     <?php elseif(PATHURL_ST=='log'):?>

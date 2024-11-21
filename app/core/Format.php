@@ -139,6 +139,30 @@ class Format{
         }
         
     }
+    
+    public static function addr_num($addr){
+        $address = explode('/', $addr)[0];
+        $prefix = explode('/', $addr)[1];
+        $addr_exp = explode('.', $address);
+        
+        $data = self::add_null($addr_exp[0]).self::add_null($addr_exp[1]).self::add_null($addr_exp[2]).self::add_null($addr_exp[3]);
+        if($prefix!=''){
+            $data .= self::add_null($prefix, 'pref');
+        }
+        return $data;
+    }
+
+    private static function add_null($numb, $type='addr'){
+        $null = [];
+        $i = 3;
+        if($type=='pref'){
+            $i = 2;
+        }
+        for($x=0; $x<$i-count(str_split($numb)); $x++){
+            $null[] = '0';
+        }
+        return implode($null).$numb;
+    }
 }
 
 ?>

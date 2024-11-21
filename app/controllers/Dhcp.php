@@ -80,7 +80,7 @@ class Dhcp extends Controller{
                 $d = [
                     'id' => $r['.id'],
                     'address' => $r['address'],
-                    'address_num'=>implode(explode('.', implode(explode('/',$r['address'])))),
+                    'address_num'=> Format::addr_num($r['address']),
                     'mac_address' => $r['mac-address'],
                     'client_id' => $r['client-id'],
                     'server' => $r['server'],

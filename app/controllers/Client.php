@@ -125,6 +125,7 @@ class Client extends Controller{
                         "date"=>$date,
                         "name"=>$name,
                         "target"=>$target,
+                        "target_num"=>Format::addr_num($target),
                         "upload"=>$upload,
                         "download"=>$download,
                         "upload_num"=>$limit[0],
