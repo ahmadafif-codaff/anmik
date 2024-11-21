@@ -63,16 +63,10 @@ class Firewall extends Controller{
                 }else{
                     $bg_color = '';
                     $f_status = 'Nonactivated';
-                    $c_status = 'Internet Acces';};
-                if($r['src-address']!=''){
-                    $address = $r['src-address'];
-                }else{
-                    $address = '--not identified--';
-                }
+                    $c_status = 'Internet Acces';
+                };
                 if(explode('.',$r['src-address'])[3]=='0/24'){
                     $type = 'Network';
-                }elseif($r['src-address']==''){
-                    $type = '--not identified--';
                 }else{
                     $type = 'Host';
                 };
@@ -87,7 +81,9 @@ class Firewall extends Controller{
                     'client_name'=>$name[0],
                     'bg'=>$bg_color
                 ];
-                $array[] = $f;
+                if($r['comment']=='ANMIK Firewall Block Static IP'){
+                    $array[] = $f;
+                }
             }
         }
         $this->API -> disconnect();
@@ -170,6 +166,7 @@ class Firewall extends Controller{
                 "src-address" => "$address",
                 "action" => "drop",
                 "disabled" => "$status",
+                "comment"=>"ANMIK Firewall Block Static IP"
             ));
         }
         $this->API -> disconnect();
@@ -210,6 +207,7 @@ class Firewall extends Controller{
                         "src-address" => "$net_addr",
                         "action" => "drop",
                         "disabled" => "false",
+                        "comment"=>"ANMIK Firewall Block Static IP"
                     ));
                     Flasher::success('tambah', 'firewall');
 
@@ -231,6 +229,7 @@ class Firewall extends Controller{
                             "src-address" => "$host_addr",
                             "action" => "drop",
                             "disabled" => "false",
+                            "comment"=>"ANMIK Firewall Block Static IP"
                         ));
                         Flasher::success('tambah', 'firewall');
 
