@@ -163,6 +163,15 @@ class Format{
         }
         return implode($null).$numb;
     }
+    
+    public static function currency($number, $code="IDR", $decimal=0, $dec_point=',', $thousands_sep='.'){
+        $data = '';
+        if(strtoupper($code)=='IDR'){
+            $data = 'Rp. ';
+        }
+        $data .= number_format($number, $decimal, $dec_point, $thousands_sep);
+        return $data;
+    }
 }
 
 ?>

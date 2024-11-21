@@ -87,9 +87,9 @@ class Client extends Controller{
         
                     if($renew>0&&$category=='Regular'){
                         $quota *= ($renew+1);
-                        $price = 'Rp. '.number_format($price + ($renew*0.5*$price))." (harga Rp. ".number_format($price)."  + (($renew kali renew*0.5)*harga Rp. ".number_format($price).")"; 
+                        $price = Format::currency($price + ($renew*0.5*$price))." (harga ".Format::currency($price)."  + (($renew kali renew*0.5)*harga ".Format::currency($price).")"; 
                     }else{
-                        $price = 'Rp. '.number_format($price);
+                        $price = Format::currency($price);
                     }
         
                     if($category=='Premium'){
@@ -172,7 +172,7 @@ class Client extends Controller{
             if($r->kategori!='Premium'){
                 $kuota = '//'.$r->kuota.' GB';
             }
-            $paket = $r->nama.'//Rp. '.number_format($r->harga).'//'.$r->kategori.$kuota.'//'.$r->max_download.'Mbps/'.$r->max_upload.'Mbps';
+            $paket = $r->nama.'//'.Format::currency($r->harga).'//'.$r->kategori.$kuota.'//'.$r->max_download.'Mbps/'.$r->max_upload.'Mbps';
             $paketv = $r->nama.' // '.$r->harga.' // '.$r->kategori.' // '.$r->max_upload.'/'.$r->max_download.' // '.$r->bandwidth_kedua.' // '.$r->bandwidth_ketiga.' // '.$r->kuota.' // '.$r->kuota_kedua;
         
             $option[] = '<option value="'.$paketv.'">'.$paket.'</option>';

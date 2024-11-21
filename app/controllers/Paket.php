@@ -78,7 +78,7 @@ class Paket extends Controller{
             }
 
             $p = $r;
-            $p['harga_format'] = 'Rp. '.number_format($r['harga']);
+            $p['harga_format'] = Format::currency($r['harga']);
             $p['kategori_ket'] = $kategori;
             $p['download2'] = $download2;
             $p['download3'] = $download3;

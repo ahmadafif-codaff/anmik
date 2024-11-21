@@ -70,7 +70,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="">Harga</label>
-                                        <input type="text" name="harga" class="form-control" placeholder="harga" id="harga<?=$no?>" value="Rp. <?=$r->harga?>" onkeyup="format_rupiah(<?=$no?>)">
+                                        <input type="text" name="harga" class="form-control" placeholder="harga" id="harga<?=$no?>" value="<?=$r->harga_format?>" onkeyup="format_rupiah(<?=$no?>)">
                                         <div class="text-danger" id="if-harga<?=$no?>"></div>
                                     </div>
                                     <div class="mb-3">
